@@ -1,0 +1,33 @@
+name: Deploy MediSync Frontend to S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to S3
+        uses: aws-actions/s3-sync@v2
+        with:
+          bucket: ${{ secrets.S3_BUCKET }}
+          region: ${{ secrets.AWS_REGION }}
+          delete: true
+          source-dir: build
