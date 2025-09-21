@@ -12,6 +12,14 @@ import LabTechSignup from "../auth/LabTechSignup";
 import LabTechLogin from "../auth/LabTechLogin";
 import PharmacistSignup from "../auth/PharmacistSignup";
 import PharmacistLogin from "../auth/PharmacistLogin";
+import PatientLayout from "./Layout/PatientLayout";
+import PatientDashboard from "../patientpages/Dashboard";
+import PatientAppointments from "../patientpages/Appointment";
+import PatientResults from "../patientpages/Result";
+import PatientPrescriptions from "../patientpages/Prescribtion";
+import  Patient  from "../patient/Patient";
+import PatientMoreInfo from "../patient/MoreInfo";
+import PatientDashboardLayout from "./Layout/PatientDashboardLayout";
 
 export const Element = createBrowserRouter([
    {
@@ -68,4 +76,26 @@ export const Element = createBrowserRouter([
          },
       ],
    },
+   {
+      path: "/patient",
+      element: <PatientLayout />,
+      children: [
+         { index: true, element: <Patient /> },
+         { path: "moreInfo", element: <PatientMoreInfo /> },
+         
+      ],
+   },
+   
+   {
+      path: "/patientboard",
+      element: <PatientDashboardLayout />,
+      children: [
+         
+         { index: true, element: <PatientDashboard /> },
+         { path: "appointments", element: <PatientAppointments /> },
+         { path: "results", element: <PatientResults /> },
+         { path: "prescriptions", element: <PatientPrescriptions /> },
+      ],
+   },
+
 ]);

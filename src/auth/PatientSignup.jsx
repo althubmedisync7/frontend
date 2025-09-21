@@ -88,8 +88,9 @@ const PatientSignup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateStep2()) {
-      console.log('Final Form Data:', formData);
-      alert('Signup complete!');
+      localStorage.setItem("patient", JSON.stringify(formData));
+      const path = `/patient`; 
+    navigate(path);
     }
   };
 
