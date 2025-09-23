@@ -20,6 +20,8 @@ import PatientPrescriptions from "../patientpages/Prescribtion";
 import  Patient  from "../patient/Patient";
 import PatientMoreInfo from "../patient/MoreInfo";
 import PatientDashboardLayout from "./Layout/PatientDashboardLayout";
+import Settings from "../patientpages/Settings";
+
 
 export const Element = createBrowserRouter([
    {
@@ -95,6 +97,9 @@ export const Element = createBrowserRouter([
          { path: "appointments", element: <PatientAppointments /> },
          { path: "results", element: <PatientResults /> },
          { path: "prescriptions", element: <PatientPrescriptions /> },
+         { path: "settings", element: <Settings /> },
+         
+         
       ],
    },
 

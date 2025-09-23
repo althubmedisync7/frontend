@@ -37,7 +37,7 @@ export default function MoreInfo() {
       setErrors(validationErrors);
       return;
     }
-    // Save to localStorage or API
+    // Save to localStorage
     localStorage.setItem("patientMoreInfo", JSON.stringify(formData));
     navigate("/patientboard");
   };
@@ -45,9 +45,9 @@ export default function MoreInfo() {
   return (
     <div className="px-5">
       {/* Progress bar */}
-      <div className="h-1 py-5 ">
+      <div className="h-1 py-5">
         <div className="mb-4 flex justify-between items-center">
-            <p className="text-[#1E318A] ">1/1</p>
+          <p className="text-[#1E318A]">1/1</p>
         </div>
         <div className="h-1 bg-[#1E318A] w-full mb-10"></div>
       </div>
@@ -83,20 +83,19 @@ export default function MoreInfo() {
         {/* Date of Birth */}
         <div>
           <label
-            htmlFor="dateOfBirth"
+            htmlFor="dob"
             className="block text-sm font-semibold text-gray-700 mb-1 text-left"
           >
             Date of Birth <span className="text-red-500">*</span>
           </label>
           <input
             type="date"
-            id="dateOfBirth"
-            name="dateOfBirth"
+            id="dob"
+            name="dob"
             value={formData.dob}
             onChange={handleChange}
-            placeholder="DD/MM/YYYY"
             className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors ${
-              errors.dateOfBirth ? "border-red-500" : "border-gray-300"
+              errors.dob ? "border-red-500" : "border-gray-300"
             }`}
             required
           />
@@ -120,13 +119,9 @@ export default function MoreInfo() {
               value={formData.gender}
               onChange={handleChange}
               className={`w-full appearance-none p-[10px] border rounded-md pr-10 
-                                            focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors 
-                                            ${
-                                              errors.gender
-                                                ? "border-red-500"
-                                                : "border-gray-300"
-                                            }
-                                            bg-white text-gray-800`}
+                focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors 
+                ${errors.gender ? "border-red-500" : "border-gray-300"}
+                bg-white text-gray-800`}
               required
             >
               <option value="" disabled>
@@ -136,75 +131,68 @@ export default function MoreInfo() {
               <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
-
             <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">
               ▼
             </span>
           </div>
-
           {errors.gender && (
             <p className="text-red-500 text-sm mt-1">{errors.gender}</p>
           )}
         </div>
+
         {/* Genotype */}
         <div className="relative">
           <label
-            htmlFor="gender"
+            htmlFor="genotype"
             className="block text-sm font-semibold text-gray-700 mb-1 text-left"
           >
             Genotype <span className="text-red-500">*</span>
           </label>
           <select
-              id="gender"
-              name="gender"
-              value={formData.genotype}
-              onChange={handleChange}
-              className={`w-full appearance-none p-[10px] border rounded-md pr-10 
-                                            focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors 
-                                            ${
-                                              errors.genotype
-                                                ? "border-red-500"
-                                                : "border-gray-300"
-                                            }
-                                            bg-white text-gray-800`}
-              required
-            >
-              <option value="">Select genotype</option>
+            id="genotype"
+            name="genotype"
+            value={formData.genotype}
+            onChange={handleChange}
+            className={`w-full appearance-none p-[10px] border rounded-md pr-10 
+              focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors 
+              ${errors.genotype ? "border-red-500" : "border-gray-300"}
+              bg-white text-gray-800`}
+            required
+          >
+            <option value="">Select genotype</option>
             <option value="AA">AA</option>
             <option value="AS">AS</option>
             <option value="SS">SS</option>
             <option value="AC">AC</option>
-            </select>
-
-            <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">
-              ▼
-            </span>
-          </div>
+          </select>
+          <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">
+            ▼
+          </span>
+          {errors.genotype && (
+            <p className="text-red-500 text-sm mt-1">{errors.genotype}</p>
+          )}
+        </div>
 
         {/* Blood Group */}
         <div className="relative">
           <label
-            htmlFor="gender"
+            htmlFor="bloodGroup"
             className="block text-sm font-semibold text-gray-700 mb-1 text-left"
           >
             Blood Group <span className="text-red-500">*</span>
           </label>
           <select
-              id="gender"
-              name="gender"
-              value={formData.bloodGroup}
-              onChange={handleChange}
-              className={`w-full appearance-none p-[10px] border rounded-md pr-10 
-                                            focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors 
-                                            ${
-                                              errors.bloodGroup
-                                                ? "border-red-500"
-                                                : "border-gray-300"
-                                            }
-                                            bg-white text-gray-800`}
-              required
-            >
-              <option value="">Select blood group</option>
+            id="bloodGroup"
+            name="bloodGroup"
+            value={formData.bloodGroup}
+            onChange={handleChange}
+            className={`w-full appearance-none p-[10px] border rounded-md pr-10 
+              focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors 
+              ${errors.bloodGroup ? "border-red-500" : "border-gray-300"}
+              bg-white text-gray-800`}
+            required
+          >
+            <option value="">Select blood group</option>
             <option value="A+">A+</option>
             <option value="A-">A-</option>
             <option value="B+">B+</option>
@@ -213,12 +201,14 @@ export default function MoreInfo() {
             <option value="O-">O-</option>
             <option value="AB+">AB+</option>
             <option value="AB-">AB-</option>
-            </select>
-
-            <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">
-              ▼
-            </span>
-          </div>
+          </select>
+          <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">
+            ▼
+          </span>
+          {errors.bloodGroup && (
+            <p className="text-red-500 text-sm mt-1">{errors.bloodGroup}</p>
+          )}
+        </div>
       </div>
 
       {/* Buttons */}
