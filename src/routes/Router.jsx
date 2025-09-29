@@ -17,85 +17,84 @@ import PatientDashboard from "../patientpages/Dashboard";
 import PatientAppointments from "../patientpages/Appointment";
 import PatientResults from "../patientpages/Result";
 import PatientPrescriptions from "../patientpages/Prescribtion";
-import  Patient  from "../patient/Patient";
+import Patient from "../patient/Patient";
 import PatientMoreInfo from "../patient/MoreInfo";
 import PatientDashboardLayout from "./Layout/PatientDashboardLayout";
+import Reschedule from "../patientpages/PatientReschedule";
 
 export const Element = createBrowserRouter([
-   {
-      path: "/",
-      element: <SplashScreen />,
-   },
-   {
-      path: "/auth",
-      element: <OnboardingLayout />,
-      children: [
-         {
-            index: true,
-            element: <OnboardingPage />,
-         },
-         {
-            path: "doctor-signup",
-            element: <DoctorSignup />,
-         },
-         {
-            path: "doctor-login",
-            element: <DoctorLogin />,
-         },
-         {
-            path: "patient-signup",
-            element: <PatientSignup />,
-         },
-         {
-            path: "patient-login",
-            element: <PatientLogin />,
-         },
-         {
-            path: "admin-signup",
-            element: <AdminSignup />,
-         },
-         {
-            path: "admin-login",
-            element: <AdminLogin />,
-         },
-         {
-            path: "labtech-signup",
-            element: <LabTechSignup />,
-         },
-         {
-            path: "labtech-login",
-            element: <LabTechLogin />,
-         },
-         {
-            path: "pharmacist-signup",
-            element: <PharmacistSignup />,
-         },
-         {
-            path: "pharmacist-login",
-            element: <PharmacistLogin />,
-         },
-      ],
-   },
-   {
-      path: "/patient",
-      element: <PatientLayout />,
-      children: [
-         { index: true, element: <Patient /> },
-         { path: "moreInfo", element: <PatientMoreInfo /> },
-         
-      ],
-   },
-   
-   {
-      path: "/patientboard",
-      element: <PatientDashboardLayout />,
-      children: [
-         
-         { index: true, element: <PatientDashboard /> },
-         { path: "appointments", element: <PatientAppointments /> },
-         { path: "results", element: <PatientResults /> },
-         { path: "prescriptions", element: <PatientPrescriptions /> },
-      ],
-   },
+  {
+    path: "/",
+    element: <SplashScreen />,
+  },
+  {
+    path: "/auth",
+    element: <OnboardingLayout />,
+    children: [
+      {
+        index: true,
+        element: <OnboardingPage />,
+      },
+      {
+        path: "doctor-signup",
+        element: <DoctorSignup />,
+      },
+      {
+        path: "doctor-login",
+        element: <DoctorLogin />,
+      },
+      {
+        path: "patient-signup",
+        element: <PatientSignup />,
+      },
+      {
+        path: "patient-login",
+        element: <PatientLogin />,
+      },
+      {
+        path: "admin-signup",
+        element: <AdminSignup />,
+      },
+      {
+        path: "admin-login",
+        element: <AdminLogin />,
+      },
+      {
+        path: "labtech-signup",
+        element: <LabTechSignup />,
+      },
+      {
+        path: "labtech-login",
+        element: <LabTechLogin />,
+      },
+      {
+        path: "pharmacist-signup",
+        element: <PharmacistSignup />,
+      },
+      {
+        path: "pharmacist-login",
+        element: <PharmacistLogin />,
+      },
+    ],
+  },
+  {
+    path: "/patient",
+    element: <PatientLayout />,
+    children: [
+      { index: true, element: <Patient /> },
+      { path: "moreInfo", element: <PatientMoreInfo /> },
+    ],
+  },
 
+  {
+    path: "/patientboard",
+    element: <PatientDashboardLayout />,
+    children: [
+      { index: true, element: <PatientDashboard /> },
+      { path: "appointments", element: <PatientAppointments /> },
+      { path: "patientreschedule", element: <Reschedule /> },
+      { path: "results", element: <PatientResults /> },
+      { path: "prescriptions", element: <PatientPrescriptions /> },
+    ],
+  },
 ]);
