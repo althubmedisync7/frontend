@@ -20,10 +20,14 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          set -x
+          npm install
 
       - name: Build project
-        run: npm run build
+        run: |
+          set -x
+          npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -35,15 +39,22 @@ jobs:
       # 🔎 Debugging steps
       - name: Echo environment values
         run: |
+          set -x
           echo "AWS Region: ${{ secrets.AWS_REGION }}"
           echo "S3 Bucket: ${{ secrets.S3_BUCKET }}"
 
       - name: Debug AWS identity
-        run: aws sts get-caller-identity
+        run: |
+          set -x
+          aws sts get-caller-identity
 
       - name: Debug list bucket
-        run: aws s3 ls s3://${{ secrets.S3_BUCKET }} --region ${{ secrets.AWS_REGION }}
+        run: |
+          set -x
+          aws s3 ls s3://${{ secrets.S3_BUCKET }} --region ${{ secrets.AWS_REGION }}
 
       # ✅ Deploy step
       - name: Deploy to S3
-        run: aws s3 sync build/ s3://${{ secrets.S3_BUCKET }} --delete --region ${{ secrets.AWS_REGION }}
+        run: |
+          set -x
+          aws s3 sync build/ s3://${{ secrets.S3_BUCKET }} --delete --region ${{ secrets.AWS_REGION }}
