@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: dev-front-end   
+    environment: dev-front-end
 
     steps:
       - name: Checkout repository
@@ -31,6 +31,11 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Debug AWS Config
+        run: |
+          aws sts get-caller-identity
+          aws s3 ls s3://${{ secrets.S3_BUCKET }}
 
       - name: Deploy to S3
         run: aws s3 sync build/ s3://${{ secrets.S3_BUCKET }} --delete
