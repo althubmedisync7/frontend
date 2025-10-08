@@ -17,10 +17,11 @@ import PatientDashboard from "../patientpages/Dashboard";
 import PatientAppointments from "../patientpages/Appointment";
 import PatientResults from "../patientpages/Result";
 import PatientPrescriptions from "../patientpages/Prescribtion";
-import  Patient  from "../patient/Patient";
+import Patient from "../patient/Patient";
 import PatientMoreInfo from "../patient/MoreInfo";
 import PatientDashboardLayout from "./Layout/PatientDashboardLayout";
 import Settings from "../patientpages/Settings";
+import ResultDetails from "../patientpages/ResultDetails";
 
 
 export const Element = createBrowserRouter([
@@ -84,22 +85,23 @@ export const Element = createBrowserRouter([
       children: [
          { index: true, element: <Patient /> },
          { path: "moreInfo", element: <PatientMoreInfo /> },
-         
+
       ],
    },
-   
+
    {
       path: "/patientboard",
       element: <PatientDashboardLayout />,
       children: [
-         
+
          { index: true, element: <PatientDashboard /> },
          { path: "appointments", element: <PatientAppointments /> },
          { path: "results", element: <PatientResults /> },
+         { path: "results/:resultId", element: <ResultDetails /> },
          { path: "prescriptions", element: <PatientPrescriptions /> },
          { path: "settings", element: <Settings /> },
-         
-         
+
+
       ],
    },
 
