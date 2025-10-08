@@ -57,6 +57,14 @@ const tabs = [
     outline: <IoSettingsOutline size={22} />,
   },
 ];
+import { CgProfile } from "react-icons/cg";
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { GoHome } from "react-icons/go";
+import { FaRegCalendarCheck } from "react-icons/fa";
+import { LuClipboardList } from "react-icons/lu";
+import { BsPrescription } from "react-icons/bs";
+import { CiSettings } from "react-icons/ci";
+import { LuLogOut } from "react-icons/lu";
 
 export default function PatientDashboardLayout() {
   const [upcomingAppointments, setUpcomingAppointments] = 
@@ -64,6 +72,9 @@ export default function PatientDashboardLayout() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
+    
+
+      
   return (
     <div className="flex flex-col lg:flex-row h-screen bg-white">
       {/* Desktop Sidebar (hidden on mobile) */}
@@ -75,6 +86,7 @@ export default function PatientDashboardLayout() {
         <nav className="flex-1 px-4 py-6 space-y-2 text-sm font-medium">
           <NavLink
             to="/patientboard"
+            
             className={({ isActive }) =>
               `block px-4 py-2 rounded-md ${
                 isActive
@@ -83,6 +95,7 @@ export default function PatientDashboardLayout() {
               }`
             }
           >
+            <GoHome size={20} />
             Dashboard
           </NavLink>
           <NavLink
@@ -95,6 +108,7 @@ export default function PatientDashboardLayout() {
               }`
             }
           >
+            <FaRegCalendarCheck size={20} />
             Appointments
           </NavLink>
           <NavLink
@@ -107,6 +121,7 @@ export default function PatientDashboardLayout() {
               }`
             }
           >
+            <LuClipboardList size={20} />
             My Results
           </NavLink>
           <NavLink
@@ -119,6 +134,7 @@ export default function PatientDashboardLayout() {
               }`
             }
           >
+            <BsPrescription size={20} />
             Prescriptions
           </NavLink>
         </nav>
@@ -150,8 +166,9 @@ export default function PatientDashboardLayout() {
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="text-gray-600">Hello, Rebecca</span>
-            <div className="h-8 w-8 rounded-full bg-gray-300"></div>
+            <div ><IoIosNotificationsOutline size={20}/></div>
+            
+            <div ><CgProfile size={20} /></div>
           </div>
         </header>
 
