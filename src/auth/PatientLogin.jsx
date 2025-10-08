@@ -52,7 +52,7 @@ const PatientLogin = () => {
 
   const handleback = () => {
     navigate(-1)
-  }
+  } 
   return (
     <div className='flex-1 flex justify-center items-center py-5 px-4'>
       <div className='w-full md:w-[60%] lg:w-[90%] flex flex-col items-center gap-4'>
@@ -138,6 +138,7 @@ const PatientLogin = () => {
             <button
               type="submit"
               className="w-full py-3 text-lg font-semibold text-white bg-[#1E318A] rounded-md hover:bg-[#2941AB] transition-colors"
+              onClick={ () => navigate("/patient")}
             >
               Login
             </button>
