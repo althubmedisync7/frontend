@@ -5,6 +5,7 @@ import medLogo from "../../assets/public/auth-logo.png";
 import logoWrite from "../../assets/public/logo-writeup.png";
 import { IoSearchOutline } from "react-icons/io5";
 
+
 import { Upcomings as initialUpcomings } from "../../data/UpcomingAppointment";
 
 import {
@@ -17,6 +18,7 @@ import {
   IoSettingsOutline,
   IoSettings,
 } from "react-icons/io5";
+import LogOut from "../../components/LogOut";
 
 const tabs = [
   {
@@ -57,7 +59,7 @@ const tabs = [
 ];
 
 export default function PatientDashboardLayout() {
-  const [upcomingAppointments, setUpcomingAppointments] =
+  const [upcomingAppointments, setUpcomingAppointments] = 
     useState(initialUpcomings);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -127,16 +129,14 @@ export default function PatientDashboardLayout() {
           >
             Settings
           </NavLink>
-          <button className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 rounded-md">
-            Logout
-          </button>
+          <LogOut />
         </div>
       </aside>
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col mt-[9px] overflow-y-auto">
         {/* Top bar (hidden on mobile) */}
-        <header className="hidden fixed w-[70rem] h-16 bg-white border-b lg:flex items-center justify-between px-6">
+        <header className="hidden fixed w-[65rem] h-16 bg-white border-b lg:flex items-center justify-between px-6">
           <div className="relative w-1/2">
             <IoSearchOutline className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
 
@@ -174,7 +174,7 @@ export default function PatientDashboardLayout() {
                       ? "bg-[#1E318A] text-white"
                       : "text-gray-500 hover:text-blue-600"
                   }`
-                }
+                } e
               >
                 {({ isActive }) => (
                   <>
