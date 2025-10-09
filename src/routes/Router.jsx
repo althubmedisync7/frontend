@@ -21,6 +21,11 @@ import  Patient  from "../patient/Patient";
 import PatientMoreInfo from "../patient/MoreInfo";
 import PatientDashboardLayout from "./Layout/PatientDashboardLayout";
 import Settings from "../patientpages/Settings";
+import DoctorHome from "../doctor/Home";
+import DoctorPatients from "../doctor/DoctorPatients";
+import DoctorAppointment from "../doctor/DoctorAppointments";
+import DoctorProfile from "../doctor/MyProfile";
+import DoctorDashboardLayout from "./Layout/DoctorDashboard";
 
 
 export const Element = createBrowserRouter([
@@ -98,6 +103,21 @@ export const Element = createBrowserRouter([
          { path: "results", element: <PatientResults /> },
          { path: "prescriptions", element: <PatientPrescriptions /> },
          { path: "settings", element: <Settings /> },
+         
+         
+      ],
+   },
+
+   {
+      path: "/doctor",
+      element: <DoctorDashboardLayout />,
+      children: [
+         
+         { index: true, element: < DoctorHome/> },
+         { path: "patient", element: < DoctorPatients/> },
+         { path: "appointment", element: <DoctorAppointment /> },
+         { path: "profile", element: < DoctorProfile/> },
+         
          
          
       ],

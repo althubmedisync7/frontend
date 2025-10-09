@@ -46,7 +46,8 @@ const PatientLogin = () => {
     e.preventDefault();
     if (validate()) {
       console.log('Login Form Data:', formData);
-      alert('Login successful!');
+      const path = `/patient`; 
+    navigate(path);
     }
   };
 
