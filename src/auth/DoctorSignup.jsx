@@ -82,7 +82,8 @@ function DoctorSignup() {
   const handleStep2Submit = () => {
     if (validateStep2()) {
       console.log('Final Form Data:', formData);
-      alert('Signup complete!');
+      const path = `/doctor`; 
+    navigate(path);
     }
   };
 
