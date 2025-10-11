@@ -1,9 +1,10 @@
-import React from 'react'
-import { RouterProvider } from 'react-router-dom'
-import { Element } from './routes/Router'
+import { Routes, Route } from "react-router-dom";
+import ProfilePage from "./pages/ProfilePage";
 
 export default function App() {
   return (
-    <RouterProvider  router={Element}/>
-  )
+    <Routes>
+      <Route path="/" element={<ProfilePage />} />
+    </Routes>
+  );
 }
