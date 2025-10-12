@@ -3,10 +3,14 @@ import logo from "../assets/public/auth-logo.png";
 import authWriteup from "../assets/public/logo-writeup.png";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // ✅ added axios
+import { Spin } from 'antd'; // ✅ added spinner
 
 function DoctorSignup() {
   const [step, setStep] = useState(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // ✅ loading state added
+
   const [formData, setFormData] = useState({
     hospital: '',
     specialization: '',
@@ -17,6 +21,7 @@ function DoctorSignup() {
     phoneNumber: '',
     password: '',
   });
+
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -34,55 +39,61 @@ function DoctorSignup() {
   };
 
   const handleLogin = () => {
-    navigate("/auth/doctor-login")
-  }
+    navigate("/auth/doctor-login");
+  };
 
   const validateStep1 = () => {
     let validationErrors = {};
-    if (!formData.hospital) {
-      validationErrors.hospital = 'Hospital/Clinic Name is required.';
-    }
-    if (!formData.specialization) {
-      validationErrors.specialization = 'Specialization is required.';
-    }
-    if (!formData.license) {
-      validationErrors.license = 'Medical License Number is required.';
-    }
-    if (!formData.experience) {
-      validationErrors.experience = 'Years of Experience is required.';
-    }
+    if (!formData.hospital) validationErrors.hospital = 'Hospital/Clinic Name is required.';
+    if (!formData.specialization) validationErrors.specialization = 'Specialization is required.';
+    if (!formData.license) validationErrors.license = 'Medical License Number is required.';
+    if (!formData.experience) validationErrors.experience = 'Years of Experience is required.';
     setErrors(validationErrors);
     return Object.keys(validationErrors).length === 0;
   };
 
   const validateStep2 = () => {
     let validationErrors = {};
-    if (!formData.fullName) {
-      validationErrors.fullName = 'Full Name is required.';
-    }
-    if (!formData.email) {
-      validationErrors.email = 'Email Address is required.';
-    }
-    if (!formData.phoneNumber) {
-      validationErrors.phoneNumber = 'Phone Number is required.';
-    }
-    if (!formData.password) {
-      validationErrors.password = 'Password is required.';
-    }
+    if (!formData.fullName) validationErrors.fullName = 'Full Name is required.';
+    if (!formData.email) validationErrors.email = 'Email Address is required.';
+    if (!formData.phoneNumber) validationErrors.phoneNumber = 'Phone Number is required.';
+    if (!formData.password) validationErrors.password = 'Password is required.';
     setErrors(validationErrors);
     return Object.keys(validationErrors).length === 0;
   };
 
   const handleStep1Submit = () => {
-    if (validateStep1()) {
-      setStep(2);
-    }
+    if (validateStep1()) setStep(2);
   };
 
-  const handleStep2Submit = () => {
-    if (validateStep2()) {
-      console.log('Final Form Data:', formData);
-      alert('Signup complete!');
+  // ✅ Added API call function
+  const handleStep2Submit = async () => {
+    if (!validateStep2()) return;
+
+    const payload = {
+      hospital_name: formData.hospital,
+      specialization: formData.specialization,
+      medical_license_number: formData.license,
+      years_of_experience: Number(formData.experience),
+      full_name: formData.fullName,
+      phone_number: formData.phoneNumber,
+      user: {
+        email: formData.email,
+        password: formData.password,
+      },
+    };
+
+    try {
+      setLoading(true);
+      const response = await axios.post("https://api.tnkma.com.ng/Doctor/", payload); // ✅ your API endpoint
+      console.log("Response:", response.data);
+      alert("Signup successful!");
+      navigate("/auth/doctor-login");
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+      alert("Signup failed. Please check your input and try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,8 +102,9 @@ function DoctorSignup() {
   };
 
   const handleGoBack = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
+
   return (
     <div className='flex-1 flex justify-center items-center py-5 px-4'>
       <div className='w-full md:w-full lg:w-[90%] flex flex-col items-center gap-4'>
@@ -116,11 +128,15 @@ function DoctorSignup() {
         <div className='w-full text-center mt-8'>
           <h2 className='text-2xl sm:text-3xl md:text-4xl font-semibold text-[#333333]'>You have a few steps to go!</h2>
           <h4 className='text-sm sm:text-base font-[500] mt-2'>You are signing up as a doctor.</h4>
-          <h4 className='text-sm sm:text-base font-[500] mt-1'>That’s not who you are? <span className='font-bold text-[#1E318A] cursor-pointer' onClick={handleGoBack}>Change your selection.</span></h4>
+          <h4 className='text-sm sm:text-base font-[500] mt-1'>
+            That’s not who you are?{' '}
+            <span className='font-bold text-[#1E318A] cursor-pointer' onClick={handleGoBack}>Change your selection.</span>
+          </h4>
         </div>
 
         {step === 1 && (
-          <div className='w-full  space-y-6 mt-8'>
+          <div className='w-full space-y-6 mt-8'>
+            {/* Step 1 inputs unchanged */}
             <div>
               <label htmlFor="hospital" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Hospital/Clinic Name <span className="text-red-500">*</span>
@@ -137,6 +153,8 @@ function DoctorSignup() {
               />
               {errors.hospital && <p className="text-red-500 text-sm mt-1">{errors.hospital}</p>}
             </div>
+
+            {/* rest of step 1 unchanged */}
             <div>
               <label htmlFor="specialization" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Specialization <span className="text-red-500">*</span>
@@ -153,6 +171,7 @@ function DoctorSignup() {
               />
               {errors.specialization && <p className="text-red-500 text-sm mt-1">{errors.specialization}</p>}
             </div>
+
             <div>
               <label htmlFor="license" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Medical License Number <span className="text-red-500">*</span>
@@ -169,6 +188,7 @@ function DoctorSignup() {
               />
               {errors.license && <p className="text-red-500 text-sm mt-1">{errors.license}</p>}
             </div>
+
             <div>
               <label htmlFor="experience" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Years of Experience <span className="text-red-500">*</span>
@@ -185,6 +205,7 @@ function DoctorSignup() {
               />
               {errors.experience && <p className="text-red-500 text-sm mt-1">{errors.experience}</p>}
             </div>
+
             <div className='flex items-center gap-2.5 justify-center mt-8'>
               <div className='w-[10px] h-[10px] bg-[#1E318A] rounded-full'></div>
               <div className='w-[10px] h-[10px] bg-[#C1C1C1] rounded-full'></div>
@@ -202,7 +223,8 @@ function DoctorSignup() {
         )}
 
         {step === 2 && (
-          <div className='w-full  space-y-6 mt-8'>
+          <div className='w-full space-y-6 mt-8'>
+            {/* Step 2 unchanged except button */}
             <div>
               <label htmlFor="fullName" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Full Name <span className="text-red-500">*</span>
@@ -219,6 +241,7 @@ function DoctorSignup() {
               />
               {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>}
             </div>
+
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Email Address <span className="text-red-500">*</span>
@@ -235,6 +258,7 @@ function DoctorSignup() {
               />
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
+
             <div>
               <label htmlFor="phoneNumber" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Phone Number <span className="text-red-500">*</span>
@@ -251,6 +275,7 @@ function DoctorSignup() {
               />
               {errors.phoneNumber && <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>}
             </div>
+
             <div>
               <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Password <span className="text-red-500">*</span>
@@ -267,23 +292,30 @@ function DoctorSignup() {
               />
               {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
             </div>
+
             <div className='flex items-center gap-2.5 justify-center mt-8'>
               <div className='w-[10px] h-[10px] border-1 border-[#C1C1C1] rounded-full'></div>
               <div className='w-[10px] h-[10px] bg-[#1E318A] rounded-full'></div>
             </div>
+
+            {/* ✅ Added spinner and loading state to button */}
             <div className='mt-8'>
               <button
                 type="button"
                 onClick={handleStep2Submit}
-                className="w-full py-3 text-lg font-semibold text-white bg-[#1E318A] rounded-md hover:bg-[#2941AB] transition-colors"
+                disabled={loading}
+                className="w-full py-3 text-lg font-semibold text-white bg-[#1E318A] rounded-md hover:bg-[#2941AB] transition-colors flex items-center justify-center"
               >
-                Submit
+                {loading ? <Spin size="small" /> : 'Submit'}
               </button>
             </div>
           </div>
         )}
         <p className='text-center mt-4 text-sm font-medium'>
-          Already created an account? <span className='text-[#1E318A] font-bold' onClick={handleLogin}>Log in</span>
+          Already created an account?{' '}
+          <span className='text-[#1E318A] font-bold' onClick={handleLogin}>
+            Log in
+          </span>
         </p>
       </div>
     </div>

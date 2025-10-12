@@ -4,9 +4,12 @@ import authWriteup from "../assets/public/logo-writeup.png";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE_URL = "https://api.tnkma.com.ng";
+const API_ENDPOINT = `${API_BASE_URL}/Admin/`;
+
 const AdminSignup = () => {
   const [step, setStep] = useState(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     hospitalName: '',
     address: '',
@@ -23,10 +26,14 @@ const AdminSignup = () => {
     authorizedToApprove: '',
     password: '',
     adminVerificationCode: '',
+    dateOfBirth: '',
+    gender: 'N/A',
     agreeToPolicies: false,
     confirmDataHandling: false,
   });
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -40,10 +47,14 @@ const AdminSignup = () => {
         [name]: '',
       }));
     }
+    if (apiError) {
+      setApiError(null);
+    }
   };
+
   const handleLogin = () => {
-    navigate("/auth/admin-login")
-  }
+    navigate("/auth/admin-login");
+  };
 
   const validateStep1 = () => {
     const validationErrors = {};
@@ -74,6 +85,7 @@ const AdminSignup = () => {
     if (!formData.phoneNumber) validationErrors.phoneNumber = 'Phone Number is required.';
     if (!formData.displayName) validationErrors.displayName = 'Display Name is required.';
     if (!formData.authorizedToApprove) validationErrors.authorizedToApprove = 'This field is required.';
+    if (!formData.dateOfBirth) validationErrors.dateOfBirth = 'Date of Birth is required.';
     setErrors(validationErrors);
     return Object.keys(validationErrors).length === 0;
   };
@@ -106,11 +118,69 @@ const AdminSignup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const buildRequestBody = () => {
+    return {
+      full_name: formData.fullName,
+      date_of_birth: formData.dateOfBirth,
+      gender: formData.gender,
+      phone_number: formData.phoneNumber,
+      address: {
+        street: formData.address,
+        city: formData.city,
+        state: formData.state,
+        country: formData.country,
+      },
+      hospital: formData.hospitalName,
+      years_of_experience: parseInt(formData.yearsOfExperience, 10),
+      department: formData.department,
+      job_title: formData.specialization,
+      do_you_approve_new_staff_registration: formData.authorizedToApprove === 'yes',
+      display_name: formData.displayName,
+      admin_verification_code: formData.adminVerificationCode,
+      user: {
+        email: formData.email,
+        password: formData.password,
+      },
+    };
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateStep3()) {
-      console.log('Final Admin Form Data:', formData);
-      alert('Admin Signup complete!');
+    setApiError(null);
+
+    if (!validateStep3()) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const requestBody = buildRequestBody();
+      console.log('Sending API Request Body:', requestBody);
+
+      const response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Signup failed with status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Admin Signup Success:', data);
+      alert('Admin Signup complete! Redirecting to login...');
+      navigate("/auth/admin-login");
+
+    } catch (error) {
+      console.error('Admin Signup API Error:', error);
+      setApiError(error.message || 'An unexpected error occurred during sign up.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -210,6 +280,16 @@ const AdminSignup = () => {
                 />
                 {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>}
               </div>
+
+              <div className='w-full'>
+                <label htmlFor="dateOfBirth" className="block text-sm font-semibold text-gray-700 mb-1 text-left">Date of Birth <span className="text-red-500">*</span></label>
+                <input
+                  type="date" id="dateOfBirth" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange}
+                  className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'}`}
+                />
+                {errors.dateOfBirth && <p className="text-red-500 text-sm mt-1">{errors.dateOfBirth}</p>}
+              </div>
+
               <div className='w-full'>
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1 text-left">Email Address <span className="text-red-500">*</span></label>
                 <input
@@ -264,7 +344,6 @@ const AdminSignup = () => {
                     <option value="no">No</option>
                   </select>
 
-                  {/* Custom dropdown arrow */}
                   <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">
                     ▼
                   </span>
@@ -350,8 +429,8 @@ const AdminSignup = () => {
   };
 
   const handleGoBack = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   return (
     <div className='flex-1 flex justify-center items-center py-5 px-4'>
@@ -387,6 +466,11 @@ const AdminSignup = () => {
         </div>
         <form className='w-full max-w-2xl mt-8' onSubmit={step === 3 ? handleSubmit : (e) => { e.preventDefault(); handleNext(); }}>
           {renderStepContent()}
+          {apiError && (
+            <p className="text-red-500 text-sm font-semibold mt-4 p-2 bg-red-100 border border-red-500 rounded text-center">
+              {apiError}
+            </p>
+          )}
           <div className='flex items-center gap-2.5 justify-center mt-8'>
             <div className={`w-[10px] h-[10px] rounded-full ${step === 1 ? 'bg-[#1E318A]' : 'bg-[#C1C1C1]'}`}></div>
             <div className={`w-[10px] h-[10px] rounded-full ${step === 2 ? 'bg-[#1E318A]' : 'bg-[#C1C1C1]'}`}></div>
@@ -395,9 +479,10 @@ const AdminSignup = () => {
           <div className='mt-8'>
             <button
               type="submit"
-              className="w-full py-3 text-lg font-semibold text-white bg-[#1E318A] rounded-md hover:bg-[#2941AB] transition-colors"
+              className="w-full py-3 text-lg font-semibold text-white bg-[#1E318A] rounded-md hover:bg-[#2941AB] transition-colors disabled:bg-gray-400"
+              disabled={isLoading}
             >
-              {step < 3 ? 'Next' : 'Sign Up'}
+              {isLoading ? 'Signing Up...' : step < 3 ? 'Next' : 'Sign Up'}
             </button>
           </div>
         </form>

@@ -3,6 +3,7 @@ import logo from "../assets/public/auth-logo.png";
 import authWriteup from "../assets/public/logo-writeup.png";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // <- ADDED
 
 const PharmacistSignup = () => {
   const [step, setStep] = useState(1);
@@ -29,6 +30,7 @@ const PharmacistSignup = () => {
     confirmRegulations: false,
   });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false); // <- ADDED
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -103,13 +105,60 @@ const PharmacistSignup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  // <-- REPLACED handleSubmit implementation only (keeps signature & call sites unchanged)
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateStep3()) {
-      console.log('Final Pharmacist Form Data:', formData);
+    if (!validateStep3()) return;
+
+    // Build payload exactly as your backend expects
+    const payload = {
+      pharmacy_name: formData.pharmacyName,
+      hospital_name: formData.hospitalName,
+      hospital_id: formData.hospitalID,
+      address: {
+        street: formData.address,
+        city: formData.city,
+        state: formData.state,
+        country: formData.country,
+      },
+      department_type: formData.departmentType,
+      key_contact_person: formData.keyContactPerson,
+      position: formData.position,
+      phone_number: formData.phoneNumber,
+      number_of_staff: Number(
+        // try to parse numberOfStaff options like "1-5", "21+" -> backend expects number,
+        // if value isn't a plain number fallback to 0
+        /^\d+$/.test(String(formData.numberOfStaff)) ? formData.numberOfStaff : 0
+      ),
+      dispensing_scope: formData.dispensingScope,
+      display_name: formData.displayName,
+      verification_code: formData.verificationCode,
+      user: {
+        email: formData.emailAddress,
+        password: formData.password,
+      },
+    };
+
+    try {
+      setLoading(true);
+      const res = await axios.post('https://api.tnkma.com.ng/Pharmacy/', payload, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      console.log('Final Pharmacist Form Data (server response):', res.data);
       alert('Pharmacist Signup complete!');
+      navigate("/auth/pharmacist-login")
+      // keep behavior same: you previously alerted — preserved
+      // optionally navigate or reset form here if you want
+    } catch (err) {
+      console.error('Signup Error:', err.response?.data || err.message);
+      // try to surface backend error details if present
+      const message = err.response?.data?.detail || err.response?.data?.message || 'Signup failed, please try again.';
+      alert(message);
+    } finally {
+      setLoading(false);
     }
   };
+  // <-- end handleSubmit replacement
 
   const handleGoBack = () => {
     navigate(-1)
@@ -490,16 +539,30 @@ const PharmacistSignup = () => {
         <form className='w-full max-w-2xl ' onSubmit={step === 3 ? handleSubmit : (e) => { e.preventDefault(); handleNext(); }}>
           {renderStepContent()}
           <div className='flex items-center gap-2.5 justify-center mt-8'>
-            <div className={`w-[10px] h-[10px] rounded-full ${step === 1 ? 'bg-[#1E318A]' : 'bg-[#C1C1C1]'}`}></div>
-            <div className={`w-[10px] h-[10px] rounded-full ${step === 2 ? 'bg-[#1E318A]' : 'bg-[#C1C1C1]'}`}></div>
-            <div className={`w-[10px] h-[10px] rounded-full ${step === 3 ? 'bg-[#1E318A]' : 'bg-[#C1C1C1]'}`}></div>
+            <div className={`w-[10px] h-[10px] rounded-full ${step === 1 ? 'bg-[#1E318A]' : 'bg-[#C1E3181]'}`}></div>
+            <div className={`w-[10px] h-[10px] rounded-full ${step === 2 ? 'bg-[#1E318A]' : 'bg-[#C1E3181]'}`}></div>
+            <div className={`w-[10px] h-[10px] rounded-full ${step === 3 ? 'bg-[#1E318A]' : 'bg-[#C1E3181]'}`}></div>
           </div>
           <div className='mt-8'>
             <button
               type="submit"
               className="w-full py-3 text-lg font-semibold text-white bg-[#1E318A] rounded-md hover:bg-[#2941AB] transition-colors"
+              disabled={loading} // <- ADDED
             >
-              {step < 3 ? 'Next' : 'Sign Up'}
+              {step < 3 ? 'Next' : (
+                <>
+                  {loading ? (
+                    // Spinner markup kept minimal and inline so structure remains same
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                      </svg>
+                      Signing up...
+                    </span>
+                  ) : 'Sign Up'}
+                </>
+              )}
             </button>
           </div>
         </form>

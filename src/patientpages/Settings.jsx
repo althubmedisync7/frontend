@@ -18,7 +18,7 @@ const Settings = () => {
 
       case 'Notifications':
         return <NotificationsAndReminders />;
-      
+
     }
   };
   return (
@@ -48,4 +48,4 @@ const Settings = () => {
   );
 };
 
-export default Settings
+export default Settings

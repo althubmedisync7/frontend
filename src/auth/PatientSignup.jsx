@@ -3,6 +3,7 @@ import logo from "../assets/public/auth-logo.png";
 import authWriteup from "../assets/public/logo-writeup.png";
 import { IoChevronBackCircleOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const PatientSignup = () => {
   const [step, setStep] = useState(1);
@@ -24,6 +25,7 @@ const PatientSignup = () => {
     agreeToHealthRecords: false,
     agreeToDataSharing: false,
   });
+  console.log(formData)
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -85,14 +87,81 @@ const PatientSignup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const API_BASE_URL = "https://api.tnkma.com.ng"
+
+
+  const encodeFormData = (data) => {
+    const params = new URLSearchParams();
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        params.append(key, data[key]);
+      }
+    }
+    return params.toString();
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (validateStep2()) {
-      localStorage.setItem("patient", JSON.stringify(formData));
-      const path = `/patient`; 
-    navigate(path);
+      const flatDataToSend = {
+        full_name: formData.fullName,
+        date_of_birth: formData.dateOfBirth,
+        gender: formData.gender,
+        phone_number: formData.phoneNumber,
+        address_street: formData.homeAddress,
+        address_city: formData.city,
+        address_state: formData.state,
+        address_country: formData.country,
+        emergency_contact: formData.emergencyContactName,
+        relationship: formData.emergencyContactRelationship,
+        location: `${formData.city}, ${formData.state}, ${formData.country}`,
+        emergency_phone_number: formData.emergencyContactPhone,
+        medical_record_number: formData.medicalNumber,
+        email: formData.email,
+        password: formData.password
+      };
+
+      try {
+        const encodedBody = encodeFormData(flatDataToSend);
+
+        const response = await fetch(
+          `${API_BASE_URL}/Patient/`,
+          {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: encodedBody,
+          }
+        );
+
+        if (!response.ok) {
+          let errorData;
+          try {
+            errorData = await response.json();
+          } catch (e) {
+            errorData = await response.text();
+          }
+          throw new Error(JSON.stringify(errorData));
+        }
+
+        const responseData = await response.json();
+        console.log(responseData);
+        navigate("/auth/patient-login")
+
+      } catch (error) {
+        try {
+          const errorDetails = JSON.parse(error.message);
+          console.error("Error response data:", errorDetails);
+        } catch (e) {
+          console.error("Error:", error.message);
+        }
+      }
     }
   };
+
+
 
   const handleBack = () => {
     if (step > 1) {
@@ -188,10 +257,10 @@ const PatientSignup = () => {
                     name="gender"
                     value={formData.gender}
                     onChange={handleChange}
-                    className={`w-full appearance-none p-[10px] border rounded-md pr-10 
-                                            focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors 
-                                            ${errors.gender ? "border-red-500" : "border-gray-300"}
-                                            bg-white text-gray-800`
+                    className={`w-full appearance-none p-[10px] border rounded-md pr-10  
+                                focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors 
+                                ${errors.gender ? "border-red-500" : "border-gray-300"}
+                                bg-white text-gray-800`
                     }
                     required
                   >

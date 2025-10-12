@@ -5,14 +5,19 @@ import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setPatientData } from '../global/PatientSlice';
 
 const PatientLogin = () => {
-  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,23 +47,63 @@ const PatientLogin = () => {
     return Object.keys(validationErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const toQueryString = (data) => {
+    const params = new URLSearchParams();
+    params.append('username', data.email);
+    params.append('password', data.password);
+    return params.toString();
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log('Login Form Data:', formData);
-      alert('Login successful!');
+
+      const API_BASE_URL = "https://api.tnkma.com.ng";
+      const LOGIN_ENDPOINT = `${API_BASE_URL}/login`;
+
+      const requestBody = toQueryString(formData);
+
+      try {
+        const response = await fetch(LOGIN_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: requestBody,
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Admin Login successful!', data);
+          dispatch(setPatientData(data));
+          alert('Admin login successful! Redirecting...');
+
+          navigate('/patient');
+
+        } else {
+          const errorData = await response.json();
+          console.error('Login failed:', errorData);
+          alert(`Login failed: ${errorData.detail || 'Invalid username or password.'}`);
+        }
+      } catch (error) {
+        console.error('Network Error:', error);
+        alert('A network error occurred. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
-  const handleback = () => {
+  const handleBack = () => {
     navigate(-1)
   }
+
   return (
     <div className='flex-1 flex justify-center items-center py-5 px-4'>
       <div className='w-full md:w-[60%] lg:w-[90%] flex flex-col items-center gap-4'>
         <div className='w-full flex items-center h-[10%] relative'>
           <button
-            onClick={handleback}
+            onClick={handleBack}
             className="absolute left-0 flex items-center text-gray-700 z-10"
           >
             <IoChevronBackCircleOutline className='text-[30px] cursor-pointer' />
@@ -73,11 +118,11 @@ const PatientLogin = () => {
           </div>
         </div>
         <div className='w-full text-center mt-8'>
-          <h2 className='text-3xl sm:text-4xl font-semibold text-[#333333]'>Welcome back!</h2>
-          <p className='text-sm sm:text-base font-normal text-gray-700 mt-2'>Log in to your account via:</p>
+          <h2 className='text-3xl sm:text-4xl font-semibold text-[#333333]'>Welcome back! (Admin)</h2>
+          <p className='text-sm sm:text-base font-normal text-gray-700 mt-2'>Log in to your admin account via:</p>
         </div>
 
-        <div className='w-full  space-y-4 mt-8'>
+        <div className='w-full  space-y-4 mt-8'>
           <button className='w-full flex items-center justify-center gap-3 border border-gray-300 py-3 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors'>
             <FcGoogle className='text-[30px]' />
             Sign in with Google
@@ -88,13 +133,13 @@ const PatientLogin = () => {
           </button>
         </div>
 
-        <div className='w-full  flex items-center justify-center my-4'>
+        <div className='w-full  flex items-center justify-center my-4'>
           <hr className='flex-grow border-t border-gray-300' />
           <span className='px-2 text-sm text-gray-500'>or continue with email</span>
           <hr className='flex-grow border-t border-gray-300' />
         </div>
 
-        <form className='w-full  space-y-6' onSubmit={handleSubmit}>
+        <form className='w-full  space-y-6' onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
               Email address <span className="text-red-500">*</span>
@@ -107,6 +152,7 @@ const PatientLogin = () => {
               onChange={handleChange}
               placeholder="Enter your work email address"
               className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+              disabled={isLoading}
             />
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
@@ -123,6 +169,7 @@ const PatientLogin = () => {
                 onChange={handleChange}
                 placeholder="Enter your password"
                 className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
+                disabled={isLoading}
               />
               <span className="absolute inset-y-0 right-3 flex items-center text-gray-500 cursor-pointer">
                 <i className="fas fa-eye"></i>
@@ -137,9 +184,10 @@ const PatientLogin = () => {
           <div className='mt-8'>
             <button
               type="submit"
-              className="w-full py-3 text-lg font-semibold text-white bg-[#1E318A] rounded-md hover:bg-[#2941AB] transition-colors"
+              className="w-full py-3 text-lg font-semibold text-white bg-[#1E318A] rounded-md hover:bg-[#2941AB] transition-colors disabled:opacity-50"
+              disabled={isLoading}
             >
-              Login
+              {isLoading ? 'Authenticating...' : 'Login'}
             </button>
           </div>
         </form>

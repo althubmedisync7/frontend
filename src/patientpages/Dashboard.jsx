@@ -35,7 +35,6 @@ export default function PatientDashboard() {
     }
   }, []);
 
-  // Helper to calculate age from dob
   const calculateAge = (dob) => {
     if (!dob) return null;
     const birthDate = new Date(dob);
@@ -193,8 +192,6 @@ export default function PatientDashboard() {
           </div>
         </div>
       )}
-      {/* Appointment, Presription */}
-      {/* Appointment, Prescription, Lab Results, Health Articles */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         {/* Appointment */}
         <div className="bg-white ">
@@ -287,7 +284,7 @@ export default function PatientDashboard() {
             </div>
 
             {/* Article 3 */}
-            
+
           </div>
         </div>
       </div>
