@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Download, Plus, Settings } from 'lucide-react';
 
-// --- Data Stubs (Same as before) ---
 const patientData = [
    { id: 'P-28597', name: 'Shalom Eze', email: 'sharoneze@gmail.com', age: 27, gender: 'Female', consentStatus: 'Active', dob: '12th November 1998', phone: '09157622884', bloodGroup: 'O+', genotype: 'AA', primaryDoctor: 'Dr Jane Uloka', activePrescriptions: 5, lastDispenseDay: 'August 19, 2025', lastDispenseDate: 'August 19, 2025', consent: 'Active', avatar: 'https://i.pravatar.cc/150?img=1' },
    { id: 'P-19634', name: 'Eddy Emmanuel', email: 'eddyemmanuel@gmail.com', age: 45, gender: 'Male', consentStatus: 'Active', activePrescriptions: 2, lastDispenseDay: 'August 21, 2025', lastDispenseDate: 'August 21, 2025', consent: 'Active', avatar: 'https://i.pravatar.cc/150?img=2' },
@@ -17,7 +16,6 @@ const patientData = [
 ];
 
 const ConsentPill = ({ status }) => {
-   // ... (same as before) ...
    const baseClasses = 'px-3 py-1 rounded-full text-xs font-semibold';
    const colorClasses = status === 'Active'
       ? 'bg-green-100 text-green-700'
@@ -43,15 +41,12 @@ const PatientOverview = () => {
 
    return (
       <div className="bg-gray-50 h-full">
-         {/* Header Section */}
          <header className="mb-6 flex justify-between items-center">
-            {/* ... (Header content) ... */}
             <div>
                <h1 className="text-3xl font-bold text-gray-900">Patients Overview</h1>
                <p className="text-gray-500 mt-1">Welcome back, **Dr. Sharon**. What's happening today?</p>
             </div>
 
-            {/* Action Buttons */}
             <div className="flex space-x-3">
                <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors shadow-sm text-sm font-medium">
                   <Download className="w-4 h-4 mr-2" />
@@ -64,10 +59,8 @@ const PatientOverview = () => {
             </div>
          </header>
 
-         {/* Patients Table Container */}
          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
 
-            {/* Filter Bar */}
             <div className="flex justify-between items-center mb-4">
                <button className="flex items-center p-2 border border-gray-300 rounded-lg text-gray-600 bg-white hover:bg-gray-50 transition-colors text-sm font-medium">
                   Filter by active prescriptions
@@ -75,10 +68,8 @@ const PatientOverview = () => {
                </button>
             </div>
 
-            {/* Table */}
             <div className="overflow-x-auto">
                <table className="min-w-full divide-y divide-gray-200 table-fixed">
-                  {/* ... (Table Header) ... */}
                   <thead className="bg-gray-50">
                      <tr>
                         {columns.map((col, index) => (
@@ -94,7 +85,6 @@ const PatientOverview = () => {
                   <tbody className="bg-white divide-y divide-gray-200">
                      {patientData.map((patient) => (
                         <tr key={patient.id} className="hover:bg-indigo-50/20 transition-colors">
-                           {/* Patient Name Cell (PASSING DATA VIA STATE) */}
                            <td className="px-4 py-3 text-sm font-medium text-gray-900 flex items-center space-x-3">
                               <img
                                  className="h-8 w-8 rounded-full flex-shrink-0"
@@ -104,7 +94,6 @@ const PatientOverview = () => {
                               <div>
                                  <Link
                                     to={`/pharmacy/patients-details/${patient.id}`}
-                                    // PASSING THE ENTIRE PATIENT OBJECT TO THE NEXT PAGE
                                     state={{ patient }}
                                     className="text-indigo-600 font-medium hover:underline"
                                  >
@@ -114,7 +103,6 @@ const PatientOverview = () => {
                               </div>
                            </td>
 
-                           {/* ... (Rest of the table data) ... */}
                            <td className="px-4 py-3 text-sm text-gray-600 truncate">{patient.email}</td>
                            <td className={`px-4 py-3 text-sm font-medium text-gray-800 ${columns[2].align}`}>{patient.activePrescriptions}</td>
                            <td className="px-4 py-3 text-sm text-gray-600">{patient.lastDispenseDay}</td>
@@ -130,12 +118,10 @@ const PatientOverview = () => {
                </table>
             </div>
 
-            {/* Footer and Pagination */}
             <div className="mt-6 flex justify-between items-center text-sm text-gray-600">
                <div>
                   Total Patients: **21,360**
                </div>
-               {/* Pagination */}
                <div className="flex space-x-2 items-center">
                   <button className="px-3 py-1 border border-gray-300 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors">
                      ← Previous

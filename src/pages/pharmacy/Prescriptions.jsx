@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { TrendingUp, TrendingDown, Calendar, Search, Filter, Plus, Download, Bell, Settings, Home, ClipboardList, Users, Stethoscope, CheckCircle, X } from 'lucide-react';
 import AddPrescriptionModal from '../../components/AddPrescriptionModal';
 
-// --- Data Stubs (Matching the Dashboard Overview) ---
 const summaryCardsData = [
-   { title: 'Dispensed Today', value: 15, change: 8, unit: '% from yesterday', isDown: true, icon: ClipboardList }, // 15, 8% down
-   { title: 'Dispensed this Week', value: 30, change: 12, unit: '% from yesterday', isDown: false, icon: ClipboardList }, // 30, 12% up
-   { title: 'Most Dispensed', value: 180, change: 30, unit: '% this week', isDown: false, icon: Stethoscope }, // 180, 30% up
-   { title: 'Patients Served', value: 10, change: 5, unit: '% New Alert', isDown: true, icon: Users }, // 10, 5% down
+   { title: 'Dispensed Today', value: 15, change: 8, unit: '% from yesterday', isDown: true, icon: ClipboardList },
+   { title: 'Dispensed this Week', value: 30, change: 12, unit: '% from yesterday', isDown: false, icon: ClipboardList },
+   { title: 'Most Dispensed', value: 180, change: 30, unit: '% this week', isDown: false, icon: Stethoscope },
+   { title: 'Patients Served', value: 10, change: 5, unit: '% New Alert', isDown: true, icon: Users },
 ];
 
 const pendingPrescriptionsData = [
@@ -19,7 +18,6 @@ const pendingPrescriptionsData = [
    { date: '14th/08/25', patientId: 'P-28597', patientName: 'Peace Uche', medications: 'Omeprazole 20mg', qty: '50 Tabs', dispensedBy: 'Ife Olamide', doctor: 'Dr Evans Hope', status: 'Rejected' },
 ];
 
-// --- Utility Components ---
 
 const SummaryCard = ({ title, value, change, unit, isDown }) => {
    const changeColor = isDown ? 'text-red-500' : 'text-green-500';
@@ -66,9 +64,8 @@ const StatusPill = ({ status }) => {
    );
 };
 
-// --- Main Prescriptions Component ---
 const Prescriptions = () => {
-   const [isModalOpen, setIsModalOpen] = useState(false); // State for the Add Prescription Modal
+   const [isModalOpen, setIsModalOpen] = useState(false);
 
    const columns = [
       { header: 'Date and Time', width: 'w-[12%]' },
@@ -83,22 +80,19 @@ const Prescriptions = () => {
 
    return (
       <div className="bg-gray-50 min-h-screen p-6">
-
-         {/* --- Header & Actions --- */}
          <header className="mb-6 flex justify-between items-center">
             <div>
                <h1 className="text-3xl font-bold text-gray-900">Dashboard Overview</h1>
                <p className="text-gray-500 mt-1">Welcome back, **Dr. Sharon**. What's happening today?</p>
             </div>
 
-            {/* Action Buttons (Matches image_0198f0.png, image_0ebc14.png) */}
             <div className="flex space-x-3">
                <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors shadow-sm text-sm font-medium">
                   <Download className="w-4 h-4 mr-2" />
                   Export
                </button>
                <button
-                  onClick={() => setIsModalOpen(true)} // Opens the modal
+                  onClick={() => setIsModalOpen(true)}
                   className="flex items-center px-4 py-2 rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-md text-sm font-medium"
                >
                   <Plus className="w-4 h-4 mr-2" />
@@ -107,18 +101,15 @@ const Prescriptions = () => {
             </div>
          </header>
 
-         {/* --- Summary Cards Section (Matches image_0198f0.png, image_0ebc14.png) --- */}
          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {summaryCardsData.map((card, index) => (
                <SummaryCard key={index} {...card} />
             ))}
          </div>
 
-         {/* --- Pending Prescription Table (Matches image_0198f0.png, image_0ebc14.png) --- */}
          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Pending Prescription</h2>
 
-            {/* Search and Filter Bar */}
             <div className="flex justify-between items-center mb-4 space-x-4">
                <div className="relative flex-grow">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -133,7 +124,6 @@ const Prescriptions = () => {
                </button>
             </div>
 
-            {/* Table */}
             <div className="overflow-x-auto">
                <table className="min-w-full divide-y divide-gray-200 table-fixed">
                   <thead className="bg-gray-50">
@@ -167,7 +157,6 @@ const Prescriptions = () => {
                </table>
             </div>
 
-            {/* Pagination Placeholder */}
             <div className="mt-6 flex justify-end">
                <button className="px-3 py-1 border border-gray-300 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors text-sm">
                   View All
@@ -175,7 +164,6 @@ const Prescriptions = () => {
             </div>
          </div>
 
-         {/* Placeholder for Add Prescription Modal */}
          <AddPrescriptionModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}

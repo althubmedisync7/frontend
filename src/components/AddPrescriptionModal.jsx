@@ -1,10 +1,10 @@
 import React from 'react';
 import { X, Search, Calendar, Save, Plus } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const AddPrescriptionModal = ({ isOpen, onClose }) => {
    if (!isOpen) return null;
 
-   // Dummy Patient Data for the Summary Block (Angelina Festus)
    const patientSummary = {
       name: 'Angelina Festus',
       id: 'P-19634',
@@ -14,24 +14,20 @@ const AddPrescriptionModal = ({ isOpen, onClose }) => {
       genotype: 'AA',
       allergies: 'Penicillin',
       lastVisit: '2025-06-10',
-      avatar: 'https://i.pravatar.cc/150?img=15' // Placeholder avatar
+      avatar: 'https://i.pravatar.cc/150?img=15'
    };
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      alert('Prescription Submitted (Placeholder)');
-      // In a real application, you would handle form data submission here.
-      // onClose();
+      toast.info('Prescription Submitted (Placeholder)');
+      onClose();
    };
 
    return (
-      // Modal Overlay 
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 transition-opacity">
 
-         {/* Modal Content - Larger size to accommodate the form */}
          <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full m-4 overflow-y-auto max-h-[90vh] overflow-hidden">
 
-            {/* Header */}
             <div className="flex justify-between items-center p-6 border-b border-gray-200 sticky top-0 bg-white z-10">
                <h2 className="text-2xl font-bold text-gray-900">New Prescription</h2>
                <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
@@ -39,7 +35,6 @@ const AddPrescriptionModal = ({ isOpen, onClose }) => {
                </button>
             </div>
 
-            {/* Search Bar */}
             <div className="p-6 pb-4">
                <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -51,7 +46,6 @@ const AddPrescriptionModal = ({ isOpen, onClose }) => {
                </div>
             </div>
 
-            {/* Patient Summary Block (Matches image_c59459.png) */}
             <div className="p-6 pt-0">
                <h3 className="text-lg font-semibold text-gray-900 mb-3">Patient Summary</h3>
                <div className="bg-indigo-50 p-4 rounded-lg flex items-center space-x-4 border border-indigo-200">
@@ -73,10 +67,8 @@ const AddPrescriptionModal = ({ isOpen, onClose }) => {
                </div>
             </div>
 
-            {/* Prescription Form */}
             <form onSubmit={handleSubmit} className="px-6 pb-6 space-y-6">
 
-               {/* Doctor Information (Matching image_c59459.png blue box) */}
                <div className="border border-indigo-400 p-4 rounded-lg bg-indigo-50/50 space-y-4">
                   <h4 className="font-semibold text-gray-900">Doctor Information</h4>
                   <div className="grid grid-cols-2 gap-4">
@@ -107,7 +99,6 @@ const AddPrescriptionModal = ({ isOpen, onClose }) => {
                   </div>
                </div>
 
-               {/* Add Drug Section */}
                <div className="space-y-4 pt-2">
                   <h4 className="text-lg font-semibold text-gray-900">Add Drug</h4>
                   <div className="grid grid-cols-2 gap-4">
@@ -170,7 +161,6 @@ const AddPrescriptionModal = ({ isOpen, onClose }) => {
                   </button>
                </div>
 
-               {/* Footer / Action Buttons */}
                <div className="pt-6 flex justify-start space-x-3 border-t border-gray-200">
                   <button
                      type="button"

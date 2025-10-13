@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
-// Icon imports
 import { BsCalendarCheck, BsArrowUpRight, BsCheckCircle } from 'react-icons/bs';
 import { FiUsers, FiFileText, FiActivity, FiBell } from 'react-icons/fi';
 import { MdOutlineMoreVert } from 'react-icons/md';
 import { BiChevronLeft, BiChevronRight, BiChevronDown } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 
-// Primary colors
 const primaryBlue = 'text-[#233CAF]';
 const primaryGreen = 'bg-[#38C6A5]';
 const primaryDarkBlue = 'bg-[#233CAF]';
 
-// ---------------------------------------------------------------------
-// --- CORE HELPER COMPONENTS (Required for both states) ---
-// ---------------------------------------------------------------------
-
-// --- StatCard Component (FIXED: Moved up to resolve ReferenceError) ---
 const StatCard = ({ title, value, icon: Icon, valueColor = primaryBlue, subText = null }) => (
   <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between h-32">
     <div className="flex justify-between items-start">
@@ -24,10 +17,8 @@ const StatCard = ({ title, value, icon: Icon, valueColor = primaryBlue, subText 
     </div>
     <div className="flex flex-col">
       <p className={`text-3xl font-bold ${valueColor}`}>{value}</p>
-      {/* Logic for Completion Rate bar */}
       {title === 'Completion Rate' && (
         <div className="mt-2 h-2 bg-gray-200 rounded-full">
-          {/* Assuming value is like '68%' */}
           <div className={`${primaryDarkBlue} h-2 rounded-full`} style={{ width: value }}></div>
         </div>
       )}
@@ -38,20 +29,17 @@ const StatCard = ({ title, value, icon: Icon, valueColor = primaryBlue, subText 
   </div>
 );
 
-// --- QuickActionsCard Component (USED IN FILLED STATE) ---
 const QuickActionsCard = () => (
   <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-64">
     <h2 className="text-lg font-semibold text-gray-800">Quick Actions</h2>
     <p className="text-sm text-gray-500 mb-6">Frequently used actions for faster workflows</p>
     <div className="flex space-x-4">
-      {/* Create Report Button */}
       <div className="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md transition cursor-pointer w-1/2">
         <button className={`flex items-center justify-center w-12 h-12 rounded-full ${primaryDarkBlue} text-white mb-2`}>
           <FiFileText className="w-6 h-6" />
         </button>
         <p className="text-sm font-medium">Create Report</p>
       </div>
-      {/* Quick Diagnosis Button */}
       <div className="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md transition cursor-pointer w-1/2">
         <button className={`flex items-center justify-center w-12 h-12 rounded-full ${primaryGreen} text-white mb-2`}>
           <BsCheckCircle className="w-6 h-6" />
@@ -62,7 +50,6 @@ const QuickActionsCard = () => (
   </div>
 );
 
-// --- AppointmentStatusCard Component (USED IN FILLED STATE - Placeholder) ---
 const AppointmentStatusCard = () => (
   <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-64 flex flex-col items-center justify-center">
     <p className="text-sm text-gray-500 mb-4">Sunday, Aug 24</p>
@@ -75,7 +62,6 @@ const AppointmentStatusCard = () => (
   </div>
 );
 
-// --- TodaysScheduleCard Component (USED IN FILLED STATE) ---
 const TodaysScheduleCard = () => {
   const appointments = [
     { time: '09:00', patient: 'Glenda Chase', status: 'Follow up' },
@@ -101,7 +87,6 @@ const TodaysScheduleCard = () => {
   );
 };
 
-// --- DoctorCalendar Component (USED IN FILLED STATE) ---
 const DoctorCalendar = () => {
   const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   const dates = [
@@ -114,7 +99,6 @@ const DoctorCalendar = () => {
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full">
-      {/* Date Input */}
       <div className="mb-6 flex items-center justify-between border border-gray-300 rounded-lg p-3">
         <div className="flex items-center text-sm font-medium text-gray-700">
           <span className="text-gray-500 mr-2">Date</span>
@@ -123,7 +107,6 @@ const DoctorCalendar = () => {
         <BsCalendarCheck className="w-5 h-5 text-gray-500 cursor-pointer" />
       </div>
 
-      {/* Calendar Controls */}
       <div className="flex justify-between items-center text-gray-700 text-sm font-medium mb-4">
         <div className="flex items-center space-x-2">
           <span className="cursor-pointer hover:text-[#233CAF]">Month</span>
@@ -139,14 +122,11 @@ const DoctorCalendar = () => {
         </div>
       </div>
 
-      {/* Calendar Grid */}
       <div className="grid grid-cols-7 gap-y-2 text-center text-sm">
-        {/* Day Headers */}
         {days.map(day => (
           <div key={day} className="font-semibold text-gray-500">{day}</div>
         ))}
 
-        {/* Dates */}
         {dates.map((dateItem, index) => {
           if (dateItem === null) {
             return <div key={index}></div>;
@@ -178,7 +158,6 @@ const DoctorCalendar = () => {
   );
 };
 
-// --- RecentActivityCard Component (USED IN FILLED STATE) ---
 const RecentActivityCard = () => {
   const activities = [
     { time: '20 mins ago', name: 'Michael Chen', action: 'completed appointment' },
@@ -208,7 +187,6 @@ const RecentActivityCard = () => {
   );
 };
 
-// --- NotificationsCard Component (USED IN FILLED STATE) ---
 const NotificationsCard = () => {
   const notifications = [
     { time: '5 min ago', text: 'Lab results for Grace Adams require immediate attention' },
@@ -233,10 +211,6 @@ const NotificationsCard = () => {
     </div>
   );
 };
-
-// ---------------------------------------------------------------------
-// --- EMPTY STATE COMPONENTS (Used when hasData is false) ---
-// ---------------------------------------------------------------------
 
 const WelcomeBanner = () => (
   <div className="bg-white p-10 rounded-xl shadow-sm mb-8 text-center border border-gray-100">
@@ -297,16 +271,12 @@ const GettingStartedChecklist = () => (
 );
 
 
-// ---------------------------------------------------------------------
-// --- Main DoctorHome Component ---
-// ---------------------------------------------------------------------
 
 const DoctorHome = () => {
   const hasData = useSelector((state) => state.doctor.doctorToken)
   console.log(hasData)
   const todayDate = 'Sunday, 24th August, 2025';
 
-  // --- Data Mocks based on state ---
   const statsData = hasData ? {
     patients: '130',
     appointments: '10',
@@ -320,14 +290,13 @@ const DoctorHome = () => {
     patients: '0',
     appointments: '0',
     rate: null,
-    urgent: '4', // Pending Tasks count in empty state
+    urgent: '4',
     subPatients: 'No patients yet',
     subAppointments: 'No appointments scheduled yet',
     subUrgent: 'Set up looks remaining',
     pendingTasksTitle: 'Pending Tasks',
   };
 
-  // --- Helper function to render a StatCard based on the state ---
   const renderStatCard = (title, value, icon, valueColor, subText) => (
     <StatCard
       title={title}
@@ -342,7 +311,6 @@ const DoctorHome = () => {
   return (
     <div className='p-6 bg-gray-50 min-h-screen'>
 
-      {/* Header / Welcome Section */}
       <div className='mb-8 flex justify-between items-start'>
         <div>
           <h1 className='text-3xl font-semibold text-gray-800'>Good morning, Dr Mercy</h1>
@@ -351,32 +319,25 @@ const DoctorHome = () => {
         <p className='text-sm text-gray-500'>Today's Date: <br /> **{todayDate}**</p>
       </div>
       {!hasData ? (
-        /* --- FILLED STATE (image_fb5fdd.png) --- */
         <>
-          {/* Top Stat Cards Grid */}
           <div className='grid grid-cols-4 gap-6 mb-8'>
             {renderStatCard("Total Patients", statsData.patients, FiUsers, primaryBlue, statsData.subPatients)}
             {renderStatCard("Today's Appointment", statsData.appointments, BsCalendarCheck, primaryBlue, statsData.subAppointments)}
-            {/* Completion Rate with internal progress bar logic */}
             {renderStatCard("Completion Rate", statsData.rate, MdOutlineMoreVert, 'text-gray-700', null)}
             {renderStatCard("Urgent Cases", statsData.urgent, BsArrowUpRight, 'text-red-500', statsData.subUrgent)}
           </div>
 
-          {/* Main Content Grid (3 Columns) */}
           <div className='grid grid-cols-3 gap-6'>
-            {/* Column 1 (Quick Actions & Calendar) */}
             <div className='space-y-6'>
               <QuickActionsCard />
               <DoctorCalendar />
             </div>
 
-            {/* Column 2 (Appointments Status & Recent Activity) */}
             <div className='space-y-6'>
               <AppointmentStatusCard />
               <RecentActivityCard />
             </div>
 
-            {/* Column 3 (Schedule & Notifications) */}
             <div className='space-y-6'>
               <TodaysScheduleCard />
               <NotificationsCard />
@@ -385,21 +346,16 @@ const DoctorHome = () => {
         </>
 
       ) : (
-        /* --- EMPTY STATE (image_fb5f29.png) --- */
         <>
           <WelcomeBanner />
 
-          {/* Basic Stats Row (Zeroed out) */}
           <div className='grid grid-cols-4 gap-6 mb-8'>
             {renderStatCard("Total Patients", statsData.patients, FiUsers, primaryBlue, statsData.subPatients)}
             {renderStatCard("Today's Appointment", statsData.appointments, BsCalendarCheck, primaryBlue, statsData.subAppointments)}
-            {/* Placeholder for the 3rd stat (Empty) */}
             <div></div>
-            {/* Pending Tasks replaces Urgent Cases in the empty state UI */}
             {renderStatCard(statsData.pendingTasksTitle, statsData.urgent, MdOutlineMoreVert, 'text-red-500', statsData.subUrgent)}
           </div>
 
-          {/* Schedule, Profile, Setup Actions */}
           <div className="grid grid-cols-3 gap-6 mb-10">
             <SetupActionCard
               icon={BsCalendarCheck}
@@ -421,7 +377,6 @@ const DoctorHome = () => {
             />
           </div>
 
-          {/* Getting Started Checklist */}
           <GettingStartedChecklist />
         </>
       )}

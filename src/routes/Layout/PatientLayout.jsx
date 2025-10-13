@@ -7,7 +7,6 @@ export default function Patient() {
 
   return (
     <div>
-      {/* Header/Nav */}
       <header
         className="flex gap-4 px-10 pt-5 items-center justify-between border-b pb-5 w-full"
         style={{ borderColor: "#D8D8D8" }}
@@ -28,7 +27,6 @@ export default function Patient() {
         </div>
       </header>
 
-      {/* Child pages will render here */}
       <main className="p-6">
         <Outlet />
       </main>

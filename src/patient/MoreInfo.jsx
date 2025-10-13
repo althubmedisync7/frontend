@@ -14,13 +14,11 @@ export default function MoreInfo() {
 
   const [errors, setErrors] = useState({});
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Validation function
   const validate = () => {
     let newErrors = {};
     if (!formData.fullName.trim()) newErrors.fullName = "Full Name is required";
@@ -37,14 +35,12 @@ export default function MoreInfo() {
       setErrors(validationErrors);
       return;
     }
-    // Save to localStorage
     localStorage.setItem("patientMoreInfo", JSON.stringify(formData));
     navigate("/patientboard");
   };
 
   return (
     <div className="px-5">
-      {/* Progress bar */}
       <div className="h-1 py-5">
         <div className="mb-4 flex justify-between items-center">
           <p className="text-[#1E318A]">1/1</p>
@@ -54,9 +50,7 @@ export default function MoreInfo() {
 
       <h2 className="text-xl font-semibold mt-10 mb-4">Basic Information</h2>
 
-      {/* Form */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Full Name */}
         <div>
           <label
             htmlFor="fullName"
@@ -69,9 +63,8 @@ export default function MoreInfo() {
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
-            className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors ${
-              errors.fullName ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors ${errors.fullName ? "border-red-500" : "border-gray-300"
+              }`}
             required
             placeholder="Rebecca Omobolanle Ajao"
           />
@@ -80,7 +73,6 @@ export default function MoreInfo() {
           )}
         </div>
 
-        {/* Date of Birth */}
         <div>
           <label
             htmlFor="dob"
@@ -94,9 +86,8 @@ export default function MoreInfo() {
             name="dob"
             value={formData.dob}
             onChange={handleChange}
-            className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors ${
-              errors.dob ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#1E318A] transition-colors ${errors.dob ? "border-red-500" : "border-gray-300"
+              }`}
             required
           />
           {errors.dob && (
@@ -104,7 +95,6 @@ export default function MoreInfo() {
           )}
         </div>
 
-        {/* Gender */}
         <div>
           <label
             htmlFor="gender"
@@ -140,7 +130,6 @@ export default function MoreInfo() {
           )}
         </div>
 
-        {/* Genotype */}
         <div className="relative">
           <label
             htmlFor="genotype"
@@ -173,7 +162,6 @@ export default function MoreInfo() {
           )}
         </div>
 
-        {/* Blood Group */}
         <div className="relative">
           <label
             htmlFor="bloodGroup"
@@ -211,7 +199,6 @@ export default function MoreInfo() {
         </div>
       </div>
 
-      {/* Buttons */}
       <div className="flex justify-between mt-8">
         <button
           className="border border-gray-400 px-4 py-2 rounded text-[#1E318A]"
@@ -228,11 +215,10 @@ export default function MoreInfo() {
             Skip for now
           </button>
           <button
-            className={`px-4 py-2 rounded text-white ${
-              Object.keys(validate()).length > 0
+            className={`px-4 py-2 rounded text-white ${Object.keys(validate()).length > 0
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-900"
-            }`}
+              }`}
             onClick={handleNext}
           >
             Next

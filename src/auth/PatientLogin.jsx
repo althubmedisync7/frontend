@@ -7,6 +7,7 @@ import { FaApple } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setPatientData } from '../global/PatientSlice';
+import { toast } from 'react-toastify';
 
 const PatientLogin = () => {
   const dispatch = useDispatch()
@@ -64,6 +65,7 @@ const PatientLogin = () => {
       const requestBody = toQueryString(formData);
 
       try {
+        setIsLoading(true);
         const response = await fetch(LOGIN_ENDPOINT, {
           method: 'POST',
           headers: {
@@ -76,18 +78,17 @@ const PatientLogin = () => {
           const data = await response.json();
           console.log('Admin Login successful!', data);
           dispatch(setPatientData(data));
-          alert('Admin login successful! Redirecting...');
-
+          toast.success('Admin login successful! Redirecting...');
           navigate('/patient');
 
         } else {
           const errorData = await response.json();
           console.error('Login failed:', errorData);
-          alert(`Login failed: ${errorData.detail || 'Invalid username or password.'}`);
+          toast.error(`Login failed: ${errorData.detail || 'Invalid username or password.'}`);
         }
       } catch (error) {
         console.error('Network Error:', error);
-        alert('A network error occurred. Please try again.');
+        toast.error('A network error occurred. Please try again.');
       } finally {
         setIsLoading(false);
       }

@@ -1,20 +1,16 @@
 import React, { useState, useMemo } from 'react';
 
-// Primary colors
 const primaryBlue = 'text-[#233CAF]';
 const primaryDarkBlue = 'bg-[#233CAF]';
-// Status colors
 const statusCompleted = 'bg-green-100 text-green-700';
 const statusConfirmed = 'bg-indigo-100 text-indigo-700';
 const statusPending = 'bg-red-100 text-red-700';
 
-// --- INLINE SVG ICONS ---
 const IconCalendar = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>;
 const IconChevronLeft = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>;
 const IconChevronRight = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>;
 const IconView = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12s2-4 7-4 7 4 7 4-2 4-7 4-7-4-7-4z"></path><circle cx="12" cy="12" r="3"></circle></svg>;
 
-// --- MOCK DATA ---
 const mockAppointments = [
    { time: '10:00', duration: '30 min', name: 'Olamide Grace', initials: 'DG', reason: 'Follow-up', status: 'Completed', date: '2025-09-04' },
    { time: '10:30', duration: '45 min', name: 'Ade Jamiu', initials: 'AJ', reason: 'Consultation', status: 'Completed', date: '2025-09-04' },
@@ -22,20 +18,17 @@ const mockAppointments = [
    { time: '14:00', duration: '30 min', name: 'Dorcas Wisdom', initials: 'DW', reason: 'Follow-up', status: 'Confirmed', date: '2025-09-04' },
    { time: '14:30', duration: '30 min', name: 'ThankGod Etim', initials: 'TE', reason: 'Check-up', status: 'Pending', date: '2025-09-04' },
 
-   // Appointments for the 29th (as highlighted in image)
    { time: '09:00', duration: '30 min', name: 'New Patient 1', initials: 'NP', reason: 'Initial Visit', status: 'Confirmed', date: '2025-08-29' },
    { time: '11:00', duration: '60 min', name: 'Grace O.', initials: 'GO', reason: 'Extended Consult', status: 'Pending', date: '2025-08-29' },
 
-   // Future Appointments (for Upcoming tab)
    { time: '09:00', duration: '30 min', name: 'Future A', initials: 'FA', reason: 'Vaccination', status: 'Confirmed', date: '2025-10-15' },
    { time: '11:00', duration: '45 min', name: 'Future B', initials: 'FB', reason: 'Bloodwork', status: 'Pending', date: '2025-11-20' },
 ];
 
-const todayDate = '2025-09-04'; // Mock today's date for display purposes
+const todayDate = '2025-09-04';
 
-// --- CALENDAR COMPONENT ---
 const Calendar = ({ selectedDate, onDateSelect }) => {
-   const [viewDate, setViewDate] = useState(new Date('2025-08-01')); // Start on August 1st, 2025
+   const [viewDate, setViewDate] = useState(new Date('2025-08-01'));
    const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
    const getMonthName = (date) => date.toLocaleString('default', { month: 'long' });
@@ -77,7 +70,6 @@ const Calendar = ({ selectedDate, onDateSelect }) => {
          <h3 className="text-xl font-semibold text-gray-800 mb-1">Calendar</h3>
          <p className="text-sm text-gray-500 mb-4">Select a date to view appointments</p>
 
-         {/* Date Picker Input (Top) */}
          <div className="mb-6 p-3 bg-gray-50 rounded-lg border border-gray-200">
             <label className="block text-xs font-medium text-gray-500 mb-1">Date</label>
             <div className="flex justify-between items-center">
@@ -91,7 +83,6 @@ const Calendar = ({ selectedDate, onDateSelect }) => {
             </div>
          </div>
 
-         {/* Calendar Header */}
          <div className="flex justify-between items-center mb-4">
             <button onClick={handlePrevMonth} className="p-1 rounded-full hover:bg-gray-100 transition">
                <IconChevronLeft className="w-5 h-5 text-gray-600" />
@@ -105,7 +96,6 @@ const Calendar = ({ selectedDate, onDateSelect }) => {
             </button>
          </div>
 
-         {/* Calendar Grid */}
          <div className="grid grid-cols-7 gap-2 text-center text-xs">
             {daysOfWeek.map(day => (
                <div key={day} className="font-semibold text-gray-500">{day}</div>
@@ -151,7 +141,6 @@ const Calendar = ({ selectedDate, onDateSelect }) => {
 };
 
 
-// --- APPOINTMENT LIST COMPONENTS ---
 const AppointmentItem = ({ time, duration, name, initials, reason, status }) => {
    let statusClass;
    switch (status) {
@@ -170,13 +159,11 @@ const AppointmentItem = ({ time, duration, name, initials, reason, status }) => 
 
    return (
       <div className="flex items-start p-4 border-b border-gray-100 hover:bg-indigo-50 transition rounded-xl">
-         {/* Time Block */}
          <div className="w-16 flex-shrink-0 text-right pr-4 border-r border-gray-200">
             <p className="text-lg font-semibold text-gray-800">{time}</p>
             <p className="text-xs text-gray-500">{duration}</p>
          </div>
 
-         {/* Patient Details */}
          <div className="flex-1 ml-4 flex items-center justify-between">
             <div className="flex items-center">
                <div className="w-9 h-9 rounded-full flex items-center justify-center bg-indigo-100 text-[#233CAF] font-bold text-sm mr-3 flex-shrink-0">{initials}</div>
@@ -186,7 +173,6 @@ const AppointmentItem = ({ time, duration, name, initials, reason, status }) => 
                </div>
             </div>
 
-            {/* Status and Action */}
             <div className="flex items-center space-x-3">
                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusClass}`}>
                   {status}
@@ -223,25 +209,21 @@ const ScheduleList = ({ title, appointments }) => {
 };
 
 
-// --- MAIN DOCTOR APPOINTMENT COMPONENT ---
 const DoctorAppointment = () => {
-   // State for the selected date on the calendar
    const [selectedDate, setSelectedDate] = useState(todayDate);
-   const [scheduleTab, setScheduleTab] = useState('Today'); // 'Today' or 'Upcoming'
+   const [scheduleTab, setScheduleTab] = useState('Today');
 
    const handleDateSelect = (date) => {
       setSelectedDate(date);
-      setScheduleTab('Today'); // Switch back to 'Today' view on date select
+      setScheduleTab('Today');
    };
 
-   // Filter appointments based on selected date and tab
    const filteredAppointments = useMemo(() => {
       if (scheduleTab === 'Today') {
          return mockAppointments
             .filter(appt => appt.date === selectedDate)
             .sort((a, b) => a.time.localeCompare(b.time));
       } else if (scheduleTab === 'Upcoming') {
-         // Filter future appointments, excluding the current selected date
          return mockAppointments
             .filter(appt => appt.date > selectedDate)
             .sort((a, b) => {
@@ -258,7 +240,6 @@ const DoctorAppointment = () => {
 
    return (
       <div className='bg-gray-50 min-h-screen'>
-         {/* Page Header */}
          <div className="flex justify-between items-center mb-8">
             <div>
                <h1 className="text-2xl font-semibold text-gray-800">Appointments</h1>
@@ -270,10 +251,8 @@ const DoctorAppointment = () => {
             </button>
          </div>
 
-         {/* Main Content Layout */}
          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-            {/* Column 1: Calendar */}
             <div className="lg:col-span-4">
                <Calendar
                   selectedDate={selectedDate}
@@ -281,10 +260,8 @@ const DoctorAppointment = () => {
                />
             </div>
 
-            {/* Column 2: Schedule List */}
             <div className="lg:col-span-8">
                <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                  {/* Tab Navigation */}
                   <div className="flex space-x-6 mb-6 border-b border-gray-100">
                      <button
                         onClick={() => setScheduleTab('Today')}
@@ -306,7 +283,6 @@ const DoctorAppointment = () => {
                      </button>
                   </div>
 
-                  {/* Schedule Content */}
                   <ScheduleList
                      title={scheduleTab === 'Today' ? `Appointments on ${displayDate}` : 'All Upcoming Appointments'}
                      appointments={filteredAppointments}

@@ -11,8 +11,7 @@ const labStatusAbnormal = 'bg-red-100 text-red-700';
 const labStatusElevated = 'bg-red-100 text-red-700';
 
 
-// --- INLINE SVG ICONS ---
-// Icons needed for Vital Signs: Heart Rate, Thermometer, Weight, Height, Blood Pressure
+
 const IconSearch = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>;
 const IconFilter = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>;
 const IconDownload = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>;
@@ -27,9 +26,6 @@ const IconClipboard = (props) => <svg {...props} xmlns="http://www.w3.org/2000/s
 const IconCalendar = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>;
 
 
-// ---------------------------------------------------------------------
-// --- MOCK DATA (Updated to include Appointment History) ---
-// ---------------------------------------------------------------------
 
 const mockPatients = [
    {
@@ -100,14 +96,14 @@ const mockPatients = [
             testName: 'Complete Blood Count',
             date: '7/15/2025',
             details: 'WBC: 12,900 | RBC: 4.5 | Hgb: 14.2',
-            status: 'Normal', // Normal, Abnormal, Elevated
+            status: 'Normal',
             fullReport: 'The complete blood count test showed normal ranges for white blood cells, red blood cells, and hemoglobin, indicating no acute infection or anemia at this time.',
          },
          {
             testName: 'Lipid Panel',
             date: '7/15/2025',
             details: 'Total Chol: 230, LDL: 165, HDL: 45',
-            status: 'Abnormal', // Abnormal indicates an issue, regardless of if high or low
+            status: 'Abnormal',
             fullReport: 'Lipid panel results show elevated total cholesterol and LDL (bad cholesterol), indicating dyslipidemia. HDL (good cholesterol) is within acceptable range. Lifestyle and medication adjustments may be required.',
          },
          {
@@ -125,13 +121,12 @@ const mockPatients = [
             fullReport: 'CMP results are largely unremarkable. Fasting glucose is slightly elevated but within pre-diabetic range. Kidney and liver function markers are normal.',
          }
       ],
-      // --- NEW APPOINTMENT HISTORY DATA ---
       appointmentHistory: [
          {
             date: '1/15/2025',
             doctor: 'Dr. Adebayo',
             reason: 'Follow-up for blood pressure check and medication review.',
-            status: 'Normal', // Outcome status: Normal, Abnormal, Elevated (for alert level)
+            status: 'Normal',
             notes: 'Blood pressure stable, continue current medications. Patient advised on dietary compliance.',
          },
          {
@@ -150,7 +145,6 @@ const mockPatients = [
          },
       ]
    },
-   // Other patients remain simplified
    {
       id: '#0002', initials: 'AJ', name: 'Ade Jamiu', firstName: 'Ade', lastName: 'Jamiu', age: 23, gender: 'Male', dob: '05/10/2002',
       address: '15 Ikeja Road, Lagos.',
@@ -190,9 +184,6 @@ const mockPatients = [
    { id: '#0005', initials: 'DG', name: 'Dolande Grace', age: 23, gender: 'Female', dob: '07/07/2002', firstName: 'Dolande', lastName: 'Grace', address: '7 Calabar Road, Lagos', contact: { phone: '+234 904 5750 728', email: 'dolande@gmail.com' }, emergencyContact: { name: 'Grace Uncle', phone: '+234 904 5750 729', relation: 'Uncle', address: 'Same as patient' }, insurance: { provider: 'AETNA', policy: 'AET-9904-789-E' }, lastVisit: '8/05/2025', condition: 'Migraine', status: 'Active', nextAppointment: 'N/A', medicalHistory: { currentDiagnoses: [], pastMedicalHistory: [], familyHistory: [] }, medications: { currentPrescriptions: [], allergies: [] }, vitalSigns: [], labResults: [], appointmentHistory: [] },
 ];
 
-// ---------------------------------------------------------------------
-// --- Helper Components (Reused) ---
-// ---------------------------------------------------------------------
 
 const DetailInput = ({ label, value }) => (
    <div className="mb-4">
@@ -230,12 +221,7 @@ const CurrentStatusPill = ({ condition, status, lastVisit, nextAppointment }) =>
 );
 
 
-// ---------------------------------------------------------------------
-// --- TAB CONTENT: Overview (Reused) ---
-// ---------------------------------------------------------------------
-
 const OverviewContent = ({ patient }) => {
-   // ... (OverviewContent component remains unchanged) ...
    const insuranceProvider = patient.insurance?.provider || 'N/A';
    const insurancePolicy = patient.insurance?.policy || 'N/A';
    const emergencyName = patient.emergencyContact?.name || 'N/A';
@@ -245,10 +231,8 @@ const OverviewContent = ({ patient }) => {
 
    return (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-         {/* Column 1: Personal & Insurance */}
          <div className="lg:col-span-2 space-y-6">
 
-            {/* Personal Information Card */}
             <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                <h3 className="text-lg font-semibold text-gray-800 mb-1">Personal Information</h3>
                <p className="text-sm text-gray-500 mb-4">Basic patient details and contact information</p>
@@ -266,7 +250,6 @@ const OverviewContent = ({ patient }) => {
                <DetailInput label="Address" value={patient.address || 'N/A'} />
             </div>
 
-            {/* Insurance Information Card */}
             <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                <h3 className="text-lg font-semibold text-gray-800 mb-1">Insurance Information</h3>
                <p className="text-sm text-gray-500 mb-4">Health Insurance and coverage details</p>
@@ -276,9 +259,7 @@ const OverviewContent = ({ patient }) => {
             </div>
          </div>
 
-         {/* Column 2: Emergency Contact & Status */}
          <div className="space-y-6">
-            {/* Emergency Contact Card */}
             <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
                <h3 className="text-lg font-semibold text-gray-800 mb-1">Emergency Contact</h3>
                <p className="text-sm text-gray-500 mb-4">Primary emergency contact information</p>
@@ -289,7 +270,6 @@ const OverviewContent = ({ patient }) => {
                <DetailInput label="Address" value={emergencyAddress} />
             </div>
 
-            {/* Current Status Card */}
             <CurrentStatusPill
                condition={patient.condition || 'N/A'}
                status={patient.status || 'N/A'}
@@ -301,10 +281,6 @@ const OverviewContent = ({ patient }) => {
    );
 };
 
-
-// ---------------------------------------------------------------------
-// --- TAB CONTENT: Medical History (Reused) ---
-// ---------------------------------------------------------------------
 
 const DiagnosisItem = ({ name, icd, diagnosed, status }) => (
    <div className="flex justify-between items-start py-4 border-b border-gray-100 last:border-b-0">
@@ -358,7 +334,6 @@ const MedicalHistoryContent = ({ patient }) => {
 
    return (
       <div className="space-y-8 mt-8">
-         {/* Current Diagnoses */}
          <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
             <h3 className="text-lg font-semibold text-gray-800 mb-1">Current Diagnoses</h3>
             <p className="text-sm text-gray-500 mb-4">Active or recently diagnosed medical conditions.</p>
@@ -373,7 +348,6 @@ const MedicalHistoryContent = ({ patient }) => {
             </div>
          </div>
 
-         {/* Past Medical History */}
          <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
             <h3 className="text-lg font-semibold text-gray-800 mb-1">Past Medical History</h3>
             <p className="text-sm text-gray-500 mb-4">Resolved conditions, surgeries, and chronic but controlled issues.</p>
@@ -388,7 +362,6 @@ const MedicalHistoryContent = ({ patient }) => {
             </div>
          </div>
 
-         {/* Family History */}
          <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
             <h3 className="text-lg font-semibold text-gray-800 mb-1">Family Medical History</h3>
             <p className="text-sm text-gray-500 mb-4">Hereditary conditions affecting close family members.</p>
@@ -407,9 +380,6 @@ const MedicalHistoryContent = ({ patient }) => {
    );
 };
 
-// ---------------------------------------------------------------------
-// --- TAB CONTENT: Medications (Reused) ---
-// ---------------------------------------------------------------------
 
 const PrescriptionItem = ({ name, dosage, prescribed, status }) => (
    <div className="flex justify-between items-start py-4 border-b border-gray-100 last:border-b-0">
@@ -462,7 +432,6 @@ const MedicationContent = ({ patient }) => {
 
    return (
       <div className="space-y-8 mt-8">
-         {/* Current Medications */}
          <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
             <h3 className="text-lg font-semibold text-gray-800 mb-1">Current Medications</h3>
             <p className="text-sm text-gray-500 mb-4">Active prescriptions and dosages</p>
@@ -477,7 +446,6 @@ const MedicationContent = ({ patient }) => {
             </div>
          </div>
 
-         {/* Allergies & Reactions */}
          <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100">
             <h3 className="text-lg font-semibold text-gray-800 mb-1">Allergies & Reactions</h3>
             <p className="text-sm text-gray-500 mb-4">Known drug and food allergies</p>
@@ -495,12 +463,6 @@ const MedicationContent = ({ patient }) => {
    );
 };
 
-
-// ---------------------------------------------------------------------
-// --- TAB CONTENT: Vital Signs (Reused) ---
-// ---------------------------------------------------------------------
-
-// Helper component for a single vital sign measurement
 const VitalSignPill = ({ icon: Icon, label, value }) => (
    <div className="flex flex-col items-start p-3 bg-gray-50 rounded-lg w-full">
       <div className="flex items-center text-gray-500 mb-1">
@@ -511,7 +473,6 @@ const VitalSignPill = ({ icon: Icon, label, value }) => (
    </div>
 );
 
-// Component for a historical vital sign entry
 const VitalSignEntry = ({ date, bloodPressure, temperature, pulse, weight, height }) => (
    <div className="p-6 bg-white rounded-xl shadow-md border border-gray-100 mb-6">
       <h4 className={`text-lg font-semibold ${primaryBlue} mb-4 border-b border-gray-100 pb-2`}>
@@ -546,7 +507,6 @@ const VitalSignsContent = ({ patient }) => {
             <h3 className="text-lg font-semibold text-gray-800 mb-1">Vital Signs History</h3>
             <p className="text-sm text-gray-500">Recent vital signs and measurements</p>
          </div>
-         {/* The design shows the history listed in descending order by date */}
          {vitalSignsHistory.map((entry, index) => (
             <VitalSignEntry key={index} {...entry} />
          ))}
@@ -555,12 +515,8 @@ const VitalSignsContent = ({ patient }) => {
 };
 
 
-// ---------------------------------------------------------------------
-// --- TAB CONTENT: Lab Results (Reused) ---
-// ---------------------------------------------------------------------
 
 const LabResultCard = ({ testName, date, details, status, fullReport }) => {
-   // Determine the status class
    let statusClass;
    let statusText = status;
    switch (status) {
@@ -583,13 +539,11 @@ const LabResultCard = ({ testName, date, details, status, fullReport }) => {
    return (
       <div className="bg-white rounded-xl shadow-md border border-gray-100 mb-6 transition-all duration-300">
          <div className="p-6 flex justify-between items-start border-b border-gray-100">
-            {/* Left Section: Test Details */}
             <div className="flex-1 min-w-0 pr-4">
                <h4 className="text-lg font-semibold text-gray-800 mb-1">{testName}</h4>
                <p className="text-xs text-gray-500 mb-2">Date: {date}</p>
                <p className="text-sm text-gray-700 font-medium truncate">{details}</p>
             </div>
-            {/* Right Section: Status and View Button */}
             <div className="flex-shrink-0 flex flex-col items-end space-y-2">
                <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusClass}`}>
                   {statusText}
@@ -603,7 +557,6 @@ const LabResultCard = ({ testName, date, details, status, fullReport }) => {
             </div>
          </div>
 
-         {/* Expanded Content (Full Report) */}
          {isExpanded && fullReport && (
             <div className="p-6 pt-4 border-t border-gray-100">
                <h5 className="text-sm font-semibold text-gray-800 mb-2 flex items-center">
@@ -638,7 +591,6 @@ const LabResultsContent = ({ patient }) => {
             <p className="text-sm text-gray-500">Recent lab tests and results</p>
          </div>
 
-         {/* Lab Result Cards (Most recent first) */}
          {labResults.map((result, index) => (
             <LabResultCard key={index} {...result} />
          ))}
@@ -646,13 +598,7 @@ const LabResultsContent = ({ patient }) => {
    );
 };
 
-
-// ---------------------------------------------------------------------
-// --- TAB CONTENT: Appointments (NEW IMPLEMENTATION) ---
-// ---------------------------------------------------------------------
-
 const AppointmentCard = ({ date, doctor, reason, status, notes }) => {
-   // Determine the status class (reusing lab status colors for outcome classification)
    let statusClass;
    let statusText = status;
    switch (status) {
@@ -673,13 +619,11 @@ const AppointmentCard = ({ date, doctor, reason, status, notes }) => {
    return (
       <div className="bg-white rounded-xl shadow-md border border-gray-100 mb-6">
          <div className="p-6 flex justify-between items-start">
-            {/* Left Section: Appointment Details */}
             <div className="flex-1 min-w-0 pr-4">
                <h4 className="text-lg font-semibold text-gray-800 mb-1">{date}</h4>
                <p className="text-sm text-gray-700 mb-2 font-medium"><span className={`${primaryBlue} font-semibold`}>{doctor}</span></p>
                <p className="text-sm text-gray-500">{reason}</p>
 
-               {/* Notes/Summary */}
                {notes && (
                   <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
                      <h5 className="text-xs font-semibold text-gray-800 uppercase mb-1">Clinical Note Summary:</h5>
@@ -687,7 +631,6 @@ const AppointmentCard = ({ date, doctor, reason, status, notes }) => {
                   </div>
                )}
             </div>
-            {/* Right Section: Outcome Status */}
             <div className="flex-shrink-0">
                <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusClass}`}>
                   {statusText}
@@ -717,7 +660,6 @@ const AppointmentsContent = ({ patient }) => {
             <p className="text-sm text-gray-500">Past visits and appointment records</p>
          </div>
 
-         {/* Appointment Cards (Most recent first) */}
          {appointmentHistory.map((appt, index) => (
             <AppointmentCard key={index} {...appt} />
          ))}
@@ -726,15 +668,10 @@ const AppointmentsContent = ({ patient }) => {
 };
 
 
-// ---------------------------------------------------------------------
-// --- PATIENT DETAIL VIEW COMPONENT (Main container for tabs) ---
-// ---------------------------------------------------------------------
-
 const PatientDetail = ({ patient, onBack }) => {
    const tabs = ['Overview', 'Medical History', 'Medications', 'Vital Signs', 'Lab Results', 'Appointments'];
    const [activeTab, setActiveTab] = useState('Overview');
 
-   // Content Router based on activeTab
    const renderContent = () => {
       switch (activeTab) {
          case 'Overview':
@@ -748,9 +685,8 @@ const PatientDetail = ({ patient, onBack }) => {
          case 'Lab Results':
             return <LabResultsContent patient={patient} />;
          case 'Appointments':
-            return <AppointmentsContent patient={patient} />; // NEW
+            return <AppointmentsContent patient={patient} />;
          default:
-            // Placeholder for unimplemented tabs
             return (
                <div className="p-12 bg-white rounded-xl shadow-md border border-gray-100 text-center mt-6">
                   <p className="text-lg text-gray-600">
@@ -763,18 +699,15 @@ const PatientDetail = ({ patient, onBack }) => {
 
    return (
       <div className="max-w-7xl mx-auto">
-         {/* Header Area */}
          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <button
                onClick={onBack}
                className={`inline-flex items-center mb-4 text-sm font-medium text-gray-500 hover:text-gray-700 transition`}
             >
-               {/* Simple left arrow SVG */}
                <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                Back to Patient List
             </button>
 
-            {/* Patient Title Block */}
             <div className="flex items-center pb-4 border-b border-gray-100">
                <div className="w-12 h-12 rounded-full flex items-center justify-center bg-indigo-100 text-[#233CAF] font-bold text-lg mr-4 flex-shrink-0">{patient.initials}</div>
                <div>
@@ -783,7 +716,6 @@ const PatientDetail = ({ patient, onBack }) => {
                </div>
             </div>
 
-            {/* Tab Navigation */}
             <div className="flex space-x-6 mt-4 overflow-x-auto whitespace-nowrap">
                {tabs.map(tab => (
                   <button
@@ -800,7 +732,6 @@ const PatientDetail = ({ patient, onBack }) => {
             </div>
          </div>
 
-         {/* Content Area */}
          <div className="mt-6">
             {renderContent()}
          </div>
@@ -808,36 +739,24 @@ const PatientDetail = ({ patient, onBack }) => {
    );
 };
 
-
-// ---------------------------------------------------------------------
-// --- Main PatientReport Component (The App Entry Point - Reused) ---
-// ---------------------------------------------------------------------
-
 const PatientRow = ({ initials, name, age, gender, contact, lastVisit, condition, status, onView }) => (
    <div className="grid grid-cols-8 gap-4 items-center py-4 border-b border-gray-100 text-sm">
-      {/* Patient Column */}
       <div className="col-span-2 flex items-center">
          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 text-gray-600 font-semibold text-xs mr-3 flex-shrink-0">{initials}</div>
          <p className="font-medium text-gray-800 truncate">{name}</p>
       </div>
-      {/* Age/Gender */}
       <div className="text-gray-600">{`${age} years, ${gender}`}</div>
-      {/* Contact */}
       <div className="col-span-2 text-gray-600 space-y-0.5">
          <p className="text-xs">{contact?.phone || 'N/A'}</p>
          <p className="text-xs truncate">{contact?.email || 'N/A'}</p>
       </div>
-      {/* Last Visit */}
       <div className="text-gray-600">{lastVisit}</div>
-      {/* Condition */}
       <div className="text-gray-600 truncate">{condition}</div>
-      {/* Status */}
       <div className="text-center">
          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${status === 'Active' ? statusActive : statusInactive}`}>
             {status}
          </span>
       </div>
-      {/* Actions - Now uses the onView handler */}
       <div className="text-center">
          <button
             onClick={onView}
@@ -854,7 +773,6 @@ const FilledPatientList = ({ patients, onPatientView }) => (
       <h2 className="text-xl font-semibold text-gray-800 mb-6">Patient List</h2>
       <p className="text-sm text-gray-500 mb-6">{patients.length} patients found</p>
 
-      {/* Table Header */}
       <div className="grid grid-cols-8 gap-4 pb-3 border-b border-gray-300 font-medium text-gray-500 text-xs uppercase tracking-wider">
          <div className="col-span-2">Patient</div>
          <div>Age/Gender</div>
@@ -865,7 +783,6 @@ const FilledPatientList = ({ patients, onPatientView }) => (
          <div className="text-center">Actions</div>
       </div>
 
-      {/* Table Rows */}
       <div className="divide-y divide-gray-100">
          {patients.map((patient, index) => (
             <PatientRow

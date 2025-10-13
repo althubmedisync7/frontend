@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column } from '@ant-design/plots'; // ✅ Added chart import
+import { Column } from '@ant-design/plots';
 
 const KPICard = ({ title, value, change, changeText, icon }) => (
    <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100 flex flex-col justify-between">
@@ -25,7 +25,6 @@ const ActionButton = ({ text, icon, color }) => (
    </button>
 );
 
-// ✅ New Chart Component
 const PatientsByAgeChart = () => {
    const data = [
       { month: "Jan", type: "Male", value: 22 },
@@ -86,7 +85,6 @@ const AdminHome = () => {
             <ActionButton text="Manage Staff" icon="⚙️" color="bg-white text-gray-700 border border-gray-300 hover:bg-gray-50" />
          </div>
 
-         {/* ✅ Chart Panel (Replaced Placeholder with Chart) */}
          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-96">
                <div className="flex justify-between items-center mb-2">
@@ -102,7 +100,6 @@ const AdminHome = () => {
                </div>
             </div>
 
-            {/* Notifications Panel */}
             <div className="lg:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg font-semibold">Notifications Panel</h2>
@@ -116,7 +113,6 @@ const AdminHome = () => {
             </div>
          </div>
 
-         {/* 4. Bottom Content Row */}
          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
                <h2 className="text-lg font-semibold mb-4">Recent Activity Feed</h2>
@@ -139,7 +135,6 @@ const AdminHome = () => {
 
 export default AdminHome;
 
-// --- Helper Components ---
 const Notification = ({ type, text }) => {
    const bgColor = type === 'error' ? 'bg-red-100' : type === 'warning' ? 'bg-yellow-100' : 'bg-green-100';
    const textColor = type === 'error' ? 'text-red-700' : type === 'warning' ? 'text-yellow-700' : 'text-green-700';

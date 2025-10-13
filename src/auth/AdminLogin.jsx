@@ -5,6 +5,7 @@ import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -61,6 +62,7 @@ const AdminLogin = () => {
       const requestBody = toQueryString(formData);
 
       try {
+        setIsLoading(true);
         const response = await fetch(LOGIN_ENDPOINT, {
           method: 'POST',
           headers: {
@@ -72,18 +74,17 @@ const AdminLogin = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('Admin Login successful!', data);
-          alert('Admin login successful! Redirecting...');
-
+          toast.success('Admin login successful! Redirecting...');
           navigate('/admin');
 
         } else {
           const errorData = await response.json();
           console.error('Login failed:', errorData);
-          alert(`Login failed: ${errorData.detail || 'Invalid username or password.'}`);
+          toast.error(`Login failed: ${errorData.detail || 'Invalid username or password.'}`);
         }
       } catch (error) {
         console.error('Network Error:', error);
-        alert('A network error occurred. Please try again.');
+        toast.error('A network error occurred. Please try again.');
       } finally {
         setIsLoading(false);
       }

@@ -5,6 +5,7 @@ import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const PharmacistLogin = () => {
   const navigate = useNavigate()
@@ -61,6 +62,7 @@ const PharmacistLogin = () => {
       const requestBody = toQueryString(formData);
 
       try {
+        setIsLoading(true);
         const response = await fetch(LOGIN_ENDPOINT, {
           method: 'POST',
           headers: {
@@ -72,17 +74,17 @@ const PharmacistLogin = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('Pharmacist Login successful!', data);
-          alert('Login successful! Redirecting to dashboard...');
+          toast.success('Login successful! Redirecting to dashboard...');
           navigate('/pharmacy');
 
         } else {
           const errorData = await response.json();
           console.error('Login failed:', errorData);
-          alert(`Login failed: ${errorData.detail || 'Invalid email or password.'}`);
+          toast.error(`Login failed: ${errorData.detail || 'Invalid email or password.'}`);
         }
       } catch (error) {
         console.error('Network Error:', error);
-        alert('A network error occurred. Please check your connection.');
+        toast.error('A network error occurred. Please check your connection.');
       } finally {
         setIsLoading(false);
       }

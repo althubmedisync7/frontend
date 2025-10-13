@@ -1,7 +1,6 @@
 import React from 'react';
 import { Search, Filter, Download, CheckCircle, Clock } from 'lucide-react';
 
-// --- Data Stub for Dispensing Log ---
 const dispensingLogData = [
    { date: '12th/08/25', time: '10:30 AM', patientName: 'Shalom Eze', patientId: 'P-28597', drug: 'Omeprazole 20mg', quantity: '30 Tabs', pharmacist: 'Ayomide Olamide', status: 'Completed' },
    { date: '13th/08/25', time: '11:45 AM', patientName: 'Tobi Ajayi', patientId: 'P-19634', drug: 'Paracetamol 500mg', quantity: '60 Tabs', pharmacist: 'Grace Adams', status: 'Completed' },
@@ -13,7 +12,6 @@ const dispensingLogData = [
    { date: '15th/08/25', time: '01:00 PM', patientName: 'Uduak Eyo', patientId: 'P-28597', drug: 'Omeprazole 20mg', quantity: '60 Tabs', pharmacist: 'Ife Olamide', status: 'Completed' },
 ];
 
-// --- Utility Components ---
 const StatusPill = ({ status }) => {
    return (
       <span className="flex items-center justify-center bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
@@ -23,7 +21,6 @@ const StatusPill = ({ status }) => {
    );
 };
 
-// --- Main DispensingLog Component ---
 const DispensingLog = () => {
    const columns = [
       { header: 'Date', width: 'w-[10%]' },
@@ -39,24 +36,20 @@ const DispensingLog = () => {
    return (
       <div className="bg-gray-50 min-h-screen p-0">
 
-         {/* --- Header & Actions --- */}
          <header className="mb-6 flex justify-between items-center border-b border-gray-200 pb-4">
             <div>
                <h1 className="text-3xl font-bold text-gray-900">Dispensing Logs</h1>
                <p className="text-gray-500 mt-1">Review the historical records of all completed drug dispensing transactions.</p>
             </div>
 
-            {/* Action Button */}
             <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors shadow-sm text-sm font-medium">
                <Download className="w-4 h-4 mr-2" />
                Export Log
             </button>
          </header>
 
-         {/* --- Log Table Section --- */}
          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
 
-            {/* Search and Filter Bar */}
             <div className="flex justify-between items-center mb-6 space-x-4">
                <div className="relative flex-grow">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -71,7 +64,6 @@ const DispensingLog = () => {
                </button>
             </div>
 
-            {/* Table */}
             <div className="overflow-x-auto">
                <table className="min-w-full divide-y divide-gray-200 table-fixed">
                   <thead className="bg-gray-50">
@@ -108,7 +100,6 @@ const DispensingLog = () => {
                </table>
             </div>
 
-            {/* Pagination Placeholder */}
             <div className="mt-6 flex justify-center">
                <button className="px-4 py-2 border border-gray-300 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors text-sm font-medium">
                   1  2  3  ...  Next

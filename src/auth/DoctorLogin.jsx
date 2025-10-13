@@ -5,6 +5,7 @@ import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const DoctorLogin = () => {
 
@@ -62,6 +63,7 @@ const DoctorLogin = () => {
       const requestBody = toQueryString(formData);
 
       try {
+        setIsLoading(true);
         const response = await fetch(loginEndpoint, {
           method: 'POST',
           headers: {
@@ -73,17 +75,17 @@ const DoctorLogin = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('Login successful!', data);
-          alert('Login successful! Redirecting...');
+          toast.success('Login successful! Redirecting...');
           navigate('/doctor-board');
 
         } else {
           const errorData = await response.json();
           console.error('Login failed:', errorData);
-          alert(`Login failed: ${errorData.detail || 'Invalid credentials'}`);
+          toast.error(`Login failed: ${errorData.detail || 'Invalid credentials'}`);
         }
       } catch (error) {
         console.error('Network Error:', error);
-        alert('A network error occurred. Please try again.');
+        toast.error('A network error occurred. Please try again.');
       } finally {
         setIsLoading(false);
       }
@@ -183,7 +185,7 @@ const DoctorLogin = () => {
               className="w-full py-3 text-lg font-semibold text-white bg-[#1E318A] rounded-md hover:bg-[#2941AB] transition-colors disabled:opacity-50"
               disabled={isLoading}
             >
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isLoading ? 'Authenticating...' : 'Login'}
             </button>
           </div>
         </form>

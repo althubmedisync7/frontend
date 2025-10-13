@@ -4,6 +4,7 @@ import authWriteup from "../assets/public/logo-writeup.png";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // <- ADDED
+import { toast } from 'react-toastify';
 
 const PharmacistSignup = () => {
   const [step, setStep] = useState(1);
@@ -105,60 +106,57 @@ const PharmacistSignup = () => {
     }
   };
 
-  // <-- REPLACED handleSubmit implementation only (keeps signature & call sites unchanged)
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateStep3()) return;
 
-    // Build payload exactly as your backend expects
     const payload = {
       pharmacy_name: formData.pharmacyName,
       hospital_name: formData.hospitalName,
       hospital_id: formData.hospitalID,
-      address: {
-        street: formData.address,
-        city: formData.city,
-        state: formData.state,
-        country: formData.country,
-      },
+      address_street: formData.address,
+      address_city: formData.city,
+      address_state: formData.state,
+      address_country: formData.country,
       department_type: formData.departmentType,
       key_contact_person: formData.keyContactPerson,
       position: formData.position,
       phone_number: formData.phoneNumber,
-      number_of_staff: Number(
-        // try to parse numberOfStaff options like "1-5", "21+" -> backend expects number,
-        // if value isn't a plain number fallback to 0
-        /^\d+$/.test(String(formData.numberOfStaff)) ? formData.numberOfStaff : 0
-      ),
+      number_of_staff: Number(/^\d+$/.test(String(formData.numberOfStaff)) ? formData.numberOfStaff : 0),
       dispensing_scope: formData.dispensingScope,
       display_name: formData.displayName,
+      email: formData.emailAddress,
+      password: formData.password,
       verification_code: formData.verificationCode,
-      user: {
-        email: formData.emailAddress,
-        password: formData.password,
-      },
     };
 
     try {
       setLoading(true);
-      const res = await axios.post('https://api.tnkma.com.ng/Pharmacy/', payload, {
-        headers: { 'Content-Type': 'application/json' }
+
+      const urlEncoded = new URLSearchParams(payload).toString();
+
+      const res = await axios.post("https://api.tnkma.com.ng/Pharmacy/", urlEncoded, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
       });
-      console.log('Final Pharmacist Form Data (server response):', res.data);
-      alert('Pharmacist Signup complete!');
-      navigate("/auth/pharmacist-login")
-      // keep behavior same: you previously alerted — preserved
-      // optionally navigate or reset form here if you want
+
+      console.log("Final Pharmacist Form Data (server response):", res.data);
+      toast.success("Pharmacist Signup complete!");
+      navigate("/auth/pharmacist-login");
     } catch (err) {
-      console.error('Signup Error:', err.response?.data || err.message);
-      // try to surface backend error details if present
-      const message = err.response?.data?.detail || err.response?.data?.message || 'Signup failed, please try again.';
-      alert(message);
+      console.error("Signup Error:", err.response?.data || err.message);
+      const message =
+        err.response?.data?.detail ||
+        err.response?.data?.message ||
+        "Signup failed, please try again.";
+      toast.error(message);
     } finally {
       setLoading(false);
     }
   };
-  // <-- end handleSubmit replacement
+
+
 
   const handleGoBack = () => {
     navigate(-1)

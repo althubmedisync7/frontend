@@ -36,7 +36,7 @@ const AdminSidebar = () => {
 
    const handleConfirmLogout = () => {
       setIsLogoutModalVisible(false);
-      navigate('/auth');
+      navigate('/');
    };
 
    const handleNavItemClick = (path, text) => {

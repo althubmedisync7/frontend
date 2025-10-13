@@ -25,16 +25,13 @@ export default function PersonalDetails() {
   });
 
   useEffect(() => {
-    // Get saved personal details
     const savedData = localStorage.getItem("personalDetails");
-    // Get signup data (if available)
     const signupData = localStorage.getItem("patientSignupInfo");
 
     if (savedData || signupData) {
       const parsedSaved = savedData ? JSON.parse(savedData) : {};
       const parsedSignup = signupData ? JSON.parse(signupData) : {};
 
-      // Merge both — signup fills missing personal info fields
       setFormData((prev) => ({
         ...prev,
         ...parsedSignup,
@@ -75,9 +72,7 @@ export default function PersonalDetails() {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Profile & Basic Info Layout */}
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-          {/* Profile Image Section */}
           <div className="flex flex-col items-center gap-5">
             <img
               src={formData.profileImage || "/profileImage.png"}
@@ -96,7 +91,6 @@ export default function PersonalDetails() {
             </label>
           </div>
 
-          {/* Name, DOB, Blood Group beside the image */}
           <div className="flex-1 gap-5">
             <div>
               <label className="block text-sm text-gray-600 mb-1">Name</label>
@@ -137,7 +131,6 @@ export default function PersonalDetails() {
           </div>
         </div>
 
-        {/* Genotype & Gender */}
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm text-gray-600 mb-1">Genotype</label>
@@ -163,7 +156,6 @@ export default function PersonalDetails() {
           </div>
         </div>
 
-        {/* Contact Details */}
         <div>
           <h3 className="font-medium text-gray-700 mb-2">Contact Details</h3>
           <div className="grid md:grid-cols-2 gap-4">
@@ -218,7 +210,6 @@ export default function PersonalDetails() {
           </div>
         </div>
 
-        {/* Emergency Contact */}
         <div>
           <h3 className="font-medium text-gray-700 mb-2">Emergency Contact</h3>
           <div className="grid md:grid-cols-2 gap-4">

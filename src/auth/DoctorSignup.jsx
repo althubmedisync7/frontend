@@ -3,13 +3,13 @@ import logo from "../assets/public/auth-logo.png";
 import authWriteup from "../assets/public/logo-writeup.png";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // ✅ added axios
-import { Spin } from 'antd'; // ✅ added spinner
-
+import axios from 'axios';
+import { Spin } from 'antd';
+import { toast } from 'react-toastify';
 function DoctorSignup() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false); // ✅ loading state added
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     hospital: '',
@@ -66,7 +66,6 @@ function DoctorSignup() {
     if (validateStep1()) setStep(2);
   };
 
-  // ✅ Added API call function
   const handleStep2Submit = async () => {
     if (!validateStep2()) return;
 
@@ -85,13 +84,13 @@ function DoctorSignup() {
 
     try {
       setLoading(true);
-      const response = await axios.post("https://api.tnkma.com.ng/Doctor/", payload); // ✅ your API endpoint
+      const response = await axios.post("https://api.tnkma.com.ng/Doctor/", payload);
       console.log("Response:", response.data);
-      alert("Signup successful!");
+      toast.success("Signup successful!");
       navigate("/auth/doctor-login");
     } catch (error) {
       console.error("Error:", error.response?.data || error.message);
-      alert("Signup failed. Please check your input and try again.");
+      toast.error("Signup failed. Please check your input and try again.");
     } finally {
       setLoading(false);
     }
@@ -136,7 +135,6 @@ function DoctorSignup() {
 
         {step === 1 && (
           <div className='w-full space-y-6 mt-8'>
-            {/* Step 1 inputs unchanged */}
             <div>
               <label htmlFor="hospital" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Hospital/Clinic Name <span className="text-red-500">*</span>
@@ -154,7 +152,6 @@ function DoctorSignup() {
               {errors.hospital && <p className="text-red-500 text-sm mt-1">{errors.hospital}</p>}
             </div>
 
-            {/* rest of step 1 unchanged */}
             <div>
               <label htmlFor="specialization" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Specialization <span className="text-red-500">*</span>
@@ -224,7 +221,6 @@ function DoctorSignup() {
 
         {step === 2 && (
           <div className='w-full space-y-6 mt-8'>
-            {/* Step 2 unchanged except button */}
             <div>
               <label htmlFor="fullName" className="block text-sm font-semibold text-gray-700 mb-1 text-left">
                 Full Name <span className="text-red-500">*</span>
@@ -298,7 +294,6 @@ function DoctorSignup() {
               <div className='w-[10px] h-[10px] bg-[#1E318A] rounded-full'></div>
             </div>
 
-            {/* ✅ Added spinner and loading state to button */}
             <div className='mt-8'>
               <button
                 type="button"

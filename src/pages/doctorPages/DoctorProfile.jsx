@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 
-// Primary colors
 const primaryBlue = 'text-[#233CAF]';
 const primaryDarkBlue = 'bg-[#233CAF]';
 
-// --- INLINE SVG ICONS ---
 const IconUser = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>;
 const IconLock = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>;
 const IconBell = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>;
 const IconCamera = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>;
 const IconUpload = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>;
 
-// --- REUSABLE COMPONENTS ---
 
-// Custom Toggle Switch
 const ToggleSwitch = ({ label, description, checked, onChange }) => (
    <div className="flex justify-between items-center py-4 border-b border-gray-100 last:border-b-0">
       <div>
@@ -35,7 +31,6 @@ const ToggleSwitch = ({ label, description, checked, onChange }) => (
    </div>
 );
 
-// Form Input Field
 const FormInput = ({ label, name, value, onChange, type = 'text', readOnly = false }) => (
    <div className="mb-4">
       <label htmlFor={name} className="block text-sm font-medium text-gray-700 sr-only">{label}</label>
@@ -53,7 +48,6 @@ const FormInput = ({ label, name, value, onChange, type = 'text', readOnly = fal
 );
 
 
-// --- MAIN DOCTOR PROFILE COMPONENT (Settings Page) ---
 const DoctorProfile = () => {
    const [profile, setProfile] = useState({
       firstName: 'Mercy',
@@ -82,16 +76,13 @@ const DoctorProfile = () => {
 
    return (
       <div className='bg-gray-50 min-h-screen'>
-         {/* Page Header */}
          <header className="mb-8">
             <h1 className="text-2xl font-semibold text-gray-800">Settings</h1>
             <p className="text-gray-500 text-sm">Manage your account and application preferences</p>
          </header>
 
-         {/* Main Settings Container */}
          <div className="w-full mx-auto space-y-8">
 
-            {/* --- 1. Profile Information --- */}
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
                <h2 className={`flex items-center text-xl font-semibold mb-6 ${primaryBlue}`}>
                   <IconUser className="w-5 h-5 mr-2" />
@@ -100,9 +91,7 @@ const DoctorProfile = () => {
                <p className="text-sm text-gray-500 mb-6">Update your personal information and profile details.</p>
 
                <div className="flex items-center space-x-6 mb-8">
-                  {/* Profile Image */}
                   <div className="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 border-4 border-white shadow-lg overflow-hidden">
-                     {/* Placeholder for Dr. Benjamin Mercy. D */}
                      <span className="text-2xl font-bold text-[#233CAF]">DB</span>
                   </div>
 
@@ -116,7 +105,6 @@ const DoctorProfile = () => {
                   </div>
                </div>
 
-               {/* Profile Form */}
                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                   <FormInput label="First Name" name="firstName" value={profile.firstName} onChange={handleProfileChange} />
                   <FormInput label="Last Name" name="lastName" value={profile.lastName} onChange={handleProfileChange} />
@@ -133,7 +121,6 @@ const DoctorProfile = () => {
                </div>
             </div>
 
-            {/* --- 2. Notifications --- */}
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
                <h2 className={`flex items-center text-xl font-semibold mb-6 ${primaryBlue}`}>
                   <IconBell className="w-5 h-5 mr-2" />
@@ -167,7 +154,6 @@ const DoctorProfile = () => {
                />
             </div>
 
-            {/* --- 3. Security & Privacy --- */}
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
                <h2 className={`flex items-center text-xl font-semibold mb-6 ${primaryBlue}`}>
                   <IconLock className="w-5 h-5 mr-2" />

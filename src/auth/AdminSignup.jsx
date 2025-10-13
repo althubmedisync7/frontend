@@ -3,6 +3,7 @@ import logo from "../assets/public/auth-logo.png";
 import authWriteup from "../assets/public/logo-writeup.png";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const API_BASE_URL = "https://api.tnkma.com.ng";
 const API_ENDPOINT = `${API_BASE_URL}/Admin/`;
@@ -156,33 +157,53 @@ const AdminSignup = () => {
 
     try {
       const requestBody = buildRequestBody();
-      console.log('Sending API Request Body:', requestBody);
+      console.log("Sending API Request Body:", requestBody);
+
+      const formBody = new URLSearchParams();
+
+      formBody.append("address_street", requestBody.address.street);
+      formBody.append("address_city", requestBody.address.city);
+      formBody.append("address_state", requestBody.address.state);
+      formBody.append("address_country", requestBody.address.country);
+      formBody.append("email", requestBody.user.email);
+      formBody.append("password", requestBody.user.password);
+      formBody.append("full_name", requestBody.full_name);
+      formBody.append("date_of_birth", requestBody.date_of_birth);
+      formBody.append("gender", requestBody.gender);
+      formBody.append("phone_number", requestBody.phone_number);
+      formBody.append("hospital", requestBody.hospital);
+      formBody.append("years_of_experience", requestBody.years_of_experience);
+      formBody.append("department", requestBody.department);
+      formBody.append("job_title", requestBody.job_title);
+      formBody.append("do_you_approve_new_staff_registration", requestBody.do_you_approve_new_staff_registration);
+      formBody.append("display_name", requestBody.display_name);
+      formBody.append("admin_verification_code", requestBody.admin_verification_code);
 
       const response = await fetch(API_ENDPOINT, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify(requestBody),
+        body: formBody.toString(),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || `Signup failed with status: ${response.status}`);
+        throw new Error(errorData.message || `Signup failed: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log('Admin Signup Success:', data);
-      alert('Admin Signup complete! Redirecting to login...');
+      console.log("Admin Signup Success:", data);
+      toast.success("Admin Signup complete! Redirecting to login...");
       navigate("/auth/admin-login");
-
     } catch (error) {
-      console.error('Admin Signup API Error:', error);
-      setApiError(error.message || 'An unexpected error occurred during sign up.');
+      console.error("Admin Signup API Error:", error);
+      setApiError(error.message || "Unexpected error during signup.");
     } finally {
       setIsLoading(false);
     }
   };
+
 
   const renderStepContent = () => {
     switch (step) {

@@ -1,3 +1,4 @@
+import React from 'react';
 import { createBrowserRouter } from "react-router-dom";
 import OnboardingPage from "../auth/OnboardingPage";
 import SplashScreen from "../auth/SplashScreen";
@@ -29,14 +30,17 @@ import DoctorProfile from "../pages/doctorPages/DoctorProfile";
 import AdminHome from "../pages/admin/AdminHome";
 import AdminLayout from "./Layout/AdminLayout";
 import PatientData from "../pages/admin/PatientData";
+// Corrected component name to PatientAppointment
 import PatientAppointment from "../pages/admin/PatientAppoint";
 import Staff from "../pages/admin/Staff";
-import PhamarcyLayout from "./Layout/PhamarcyLayout";
+// Corrected import name: PhamarcyLayout -> PharmacyLayout
+import PharmacyLayout from "./Layout/PhamarcyLayout";
 import PharmacyHome from "../pages/pharmacy/PharmacyHome";
 import DispensingLog from "../pages/pharmacy/DispensingLog";
 import PatientOverview from "../pages/pharmacy/PatientOverview";
 import PatientDetail from "../pages/pharmacy/PatientDetail";
 import Prescriptions from "../pages/pharmacy/Prescriptions";
+import ResultDetailPage from '../patientpages/ResultDetailPage';
 
 
 export const Element = createBrowserRouter([
@@ -140,7 +144,7 @@ export const Element = createBrowserRouter([
    },
    {
       path: "/pharmacy",
-      element: <PhamarcyLayout />,
+      element: <PharmacyLayout />,
       children: [
          {
             index: true,
@@ -159,7 +163,7 @@ export const Element = createBrowserRouter([
             element: <PatientDetail />
          },
          {
-            path: "Prescriptions",
+            path: "prescriptions",
             element: <Prescriptions />
          },
       ]
@@ -180,6 +184,7 @@ export const Element = createBrowserRouter([
          { index: true, element: <PatientDashboard /> },
          { path: "appointments", element: <PatientAppointments /> },
          { path: "results", element: <PatientResults /> },
+         { path: "results/:resultId", element: <ResultDetailPage /> },
          { path: "prescriptions", element: <PatientPrescriptions /> },
          { path: "settings", element: <Settings /> },
       ],

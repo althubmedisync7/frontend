@@ -8,7 +8,6 @@ export default function NotificationsAndReminders() {
     healthTips: "daily",
   });
 
-  // Load saved preferences
   useEffect(() => {
     const saved = localStorage.getItem("notificationSettings");
     if (saved) {
@@ -16,7 +15,6 @@ export default function NotificationsAndReminders() {
     }
   }, []);
 
-  // Save changes automatically
   useEffect(() => {
     localStorage.setItem("notificationSettings", JSON.stringify(settings));
   }, [settings]);
@@ -35,7 +33,6 @@ export default function NotificationsAndReminders() {
         Notifications & Reminders
       </h2>
 
-      {/* Reminders */}
       <div className="mb-6">
         <h3 className="text-lg font-medium text-gray-700 mb-3">Reminders</h3>
 
@@ -43,14 +40,12 @@ export default function NotificationsAndReminders() {
           <span className="text-gray-700">Medications Reminder</span>
           <button
             onClick={() => handleToggle("medicationReminder")}
-            className={`relative w-12 h-6 rounded-full transition-colors ${
-              settings.medicationReminder ? "bg-blue-900" : "bg-gray-300"
-            }`}
+            className={`relative w-12 h-6 rounded-full transition-colors ${settings.medicationReminder ? "bg-blue-900" : "bg-gray-300"
+              }`}
           >
             <span
-              className={`absolute top-0.5 left-0.5 h-5 w-5 bg-white rounded-full transition-transform ${
-                settings.medicationReminder ? "translate-x-6" : ""
-              }`}
+              className={`absolute top-0.5 left-0.5 h-5 w-5 bg-white rounded-full transition-transform ${settings.medicationReminder ? "translate-x-6" : ""
+                }`}
             ></span>
           </button>
         </div>
@@ -59,20 +54,17 @@ export default function NotificationsAndReminders() {
           <span className="text-gray-700">Appointments Reminder</span>
           <button
             onClick={() => handleToggle("appointmentReminder")}
-            className={`relative w-12 h-6 rounded-full transition-colors ${
-              settings.appointmentReminder ? "bg-blue-900" : "bg-gray-300"
-            }`}
+            className={`relative w-12 h-6 rounded-full transition-colors ${settings.appointmentReminder ? "bg-blue-900" : "bg-gray-300"
+              }`}
           >
             <span
-              className={`absolute top-0.5 left-0.5 h-5 w-5 bg-white rounded-full transition-transform ${
-                settings.appointmentReminder ? "translate-x-6" : ""
-              }`}
+              className={`absolute top-0.5 left-0.5 h-5 w-5 bg-white rounded-full transition-transform ${settings.appointmentReminder ? "translate-x-6" : ""
+                }`}
             ></span>
           </button>
         </div>
       </div>
 
-      {/* Push Notifications */}
       <div className="mb-6">
         <h3 className="text-lg font-medium text-gray-700 mb-3">
           Push Notifications
@@ -84,20 +76,17 @@ export default function NotificationsAndReminders() {
           </span>
           <button
             onClick={() => handleToggle("pushNotification")}
-            className={`relative w-12 h-6 rounded-full transition-colors ${
-              settings.pushNotification ? "bg-blue-900" : "bg-gray-300"
-            }`}
+            className={`relative w-12 h-6 rounded-full transition-colors ${settings.pushNotification ? "bg-blue-900" : "bg-gray-300"
+              }`}
           >
             <span
-              className={`absolute top-0.5 left-0.5 h-5 w-5 bg-white rounded-full transition-transform ${
-                settings.pushNotification ? "translate-x-6" : ""
-              }`}
+              className={`absolute top-0.5 left-0.5 h-5 w-5 bg-white rounded-full transition-transform ${settings.pushNotification ? "translate-x-6" : ""
+                }`}
             ></span>
           </button>
         </div>
       </div>
 
-      {/* Health Tips Alert */}
       <div>
         <h3 className="text-lg font-medium text-gray-700 mb-3">
           Health Tips Alert

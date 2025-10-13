@@ -10,7 +10,6 @@ import {
    Settings,
 } from 'lucide-react';
 
-// --- Data Stubs (Partial data provided for demonstration) ---
 const statData = [
    { title: 'Dispensed Today', value: '15', change: '↓ 8% from yesterday', isPositive: false, icon: Calendar },
    { title: 'Dispensed this Week', value: '30', change: '↑ 12% from yesterday', isPositive: true, icon: Calendar },
@@ -63,7 +62,6 @@ const PendingPrescriptionTable = ({ data }) => {
          : <XCircle className="w-5 h-5 text-red-500" />;
    };
 
-   // Aggressive Column Widths to prioritize non-scrolling
    const columns = [
       { header: 'Date and Time', width: 'w-[12%]' },
       { header: 'Patient ID', width: 'w-[8%]' },
@@ -94,16 +92,13 @@ const PendingPrescriptionTable = ({ data }) => {
             </button>
          </div>
 
-         {/* Removed the internal overflow-x-auto to force fitting if possible */}
          <div className="overflow-x-hidden">
-            {/* min-w-full and table-fixed ensure the table tries to fit the container width */}
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
                <thead className="bg-gray-50">
                   <tr>
                      {columns.map((col) => (
                         <th
                            key={col.header}
-                           // Reduced horizontal padding on table header (px-2)
                            className={`px-2 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider ${col.width}`}
                         >
                            {col.header}
@@ -114,7 +109,6 @@ const PendingPrescriptionTable = ({ data }) => {
                <tbody className="bg-white divide-y divide-gray-200">
                   {data.map((item, index) => (
                      <tr key={index} className="hover:bg-indigo-50/20 transition-colors">
-                        {/* Text is allowed to wrap to avoid horizontal overflow, and padding is reduced */}
                         <td className="px-2 py-3 text-sm text-gray-600">{item.date}</td>
                         <td className="px-2 py-3 text-sm font-medium text-gray-800">{item.patientId}</td>
                         <td className="px-2 py-3 text-sm font-medium text-indigo-600">{item.patientName}</td>
@@ -138,7 +132,6 @@ const PendingPrescriptionTable = ({ data }) => {
    );
 };
 
-// --- Main Component ---
 const PharmacyHome = () => {
    return (
       <div className="h-full">

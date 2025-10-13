@@ -113,10 +113,10 @@ const PatientSignup = () => {
         address_city: formData.city,
         address_state: formData.state,
         address_country: formData.country,
-        emergency_contact: formData.emergencyContactName,
-        relationship: formData.emergencyContactRelationship,
-        location: `${formData.city}, ${formData.state}, ${formData.country}`,
-        emergency_phone_number: formData.emergencyContactPhone,
+        emergency_contact_name: formData.emergencyContactName,
+        emergency_contact_relationship: formData.emergencyContactRelationship,
+        emergency_contact_location: `${formData.city}, ${formData.state}, ${formData.country}`,
+        emergency_contact_phone_number: formData.emergencyContactPhone,
         medical_record_number: formData.medicalNumber,
         email: formData.email,
         password: formData.password
@@ -126,7 +126,7 @@ const PatientSignup = () => {
         const encodedBody = encodeFormData(flatDataToSend);
 
         const response = await fetch(
-          `${API_BASE_URL}/Patient/`,
+          `${API_BASE_URL}/Patient/form`,
           {
             method: 'POST',
             headers: {

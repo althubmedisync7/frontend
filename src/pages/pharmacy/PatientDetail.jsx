@@ -7,12 +7,11 @@ const tabs = [
    'Medication History',
    'Active Prescriptions',
    'Allergies',
-   'Doctors Notes', // Added functionality
-   'Pharmacist Notes', // Added functionality
-   'Consent Log', // Added functionality
+   'Doctors Notes',
+   'Pharmacist Notes',
+   'Consent Log',
 ];
 
-// --- Data Stubs (Defined above: doctorsNotesData, pharmacistNotesData, consentLogData) ---
 const doctorsNotesData = [
    { date: '15th/09/25', doctor: 'Dr Jane Uloka', note: 'Patient presented with mild fever and headache, prescribed simple analgesics. Advised to return if symptoms persist beyond 48 hours. No immediate concerns regarding chronic conditions.' },
    { date: '21st/08/25', doctor: 'Dr Martins Joy', note: 'Routine check-up. Blood pressure remains stable on current medication (Losartan 50mg). Emphasized compliance and schedule follow-up in 3 months.' },
@@ -39,10 +38,8 @@ const medicationHistoryData = [
    { date: '5th/08/25', medications: 'Omeprazole 20mg', frequency: '3x Daily for 3 days', dispensedBy: 'Dr Ayomide Olamide', doctor: 'Dr Martina Joy' },
    { date: '10th/08/25', medications: 'Paracetamol 500mg', frequency: '2x Daily for 3 days', dispensedBy: 'Dr Grace Adams', doctor: 'Dr Evans Hope' },
 ];
-// --- End Data Stubs ---
 
 
-// --- Utility Components (NotesSection, ConsentLogTable, etc. defined above for brevity) ---
 const NotesSection = ({ data, title, authorLabel }) => {
    return (
       <div className="space-y-4">
@@ -103,7 +100,6 @@ const ConsentLogTable = ({ data }) => {
    );
 };
 const AllergiesTable = ({ data }) => {
-   // ... (AllergiesTable component structure remains the same)
    const columns = [
       { header: 'Allergen', width: 'w-[25%]' },
       { header: 'Reaction', width: 'w-[40%]' },
@@ -162,7 +158,6 @@ const AllergiesTable = ({ data }) => {
    );
 };
 const ActivePrescriptionsTable = ({ data }) => {
-   // Component is reused in renderContent
    const handleDispense = (drugName) => {
       alert(`Dispensing ${drugName} now!`);
    };
@@ -216,7 +211,6 @@ const ActivePrescriptionsTable = ({ data }) => {
    );
 };
 const MedicationHistoryTable = ({ data }) => {
-   // ... (MedicationHistoryTable component structure remains the same)
    const columns = [
       { header: 'Date and Time', width: 'w-[15%]' },
       { header: 'Medications Dispensed', width: 'w-[25%]' },
@@ -260,13 +254,12 @@ const DefaultTabContent = ({ tabName }) => (
       <p className="text-gray-600">Content for **{tabName}** will be developed soon.</p>
    </div>
 );
-// --- End Utility Components ---
 
 
 const PatientDetail = () => {
    const location = useLocation();
    const passedPatientData = location.state?.patient;
-   const [activeTab, setActiveTab] = useState('Doctors Notes'); // Setting default to show new content
+   const [activeTab, setActiveTab] = useState('Doctors Notes');
 
    const defaultPatient = {
       name: 'Patient Not Found', age: '--', gender: '--', id: 'N/A',
@@ -288,7 +281,6 @@ const PatientDetail = () => {
       { label: 'Temperature', value: '-', icon: Thermometer },
    ];
 
-   // Function to render content based on the active tab
    const renderContent = () => {
       switch (activeTab) {
          case 'Overview':
@@ -321,15 +313,12 @@ const PatientDetail = () => {
             return <AllergiesTable data={allergiesData} />;
 
          case 'Doctors Notes':
-            // RENDER DOCTORS NOTES HERE
             return <NotesSection data={doctorsNotesData} title="Doctors Notes" authorLabel="Doctor" />;
 
          case 'Pharmacist Notes':
-            // RENDER PHARMACIST NOTES HERE
             return <NotesSection data={pharmacistNotesData} title="Pharmacist Notes" authorLabel="Pharmacist" />;
 
          case 'Consent Log':
-            // RENDER CONSENT LOG HERE
             return <ConsentLogTable data={consentLogData} />;
 
          default:
@@ -342,7 +331,6 @@ const PatientDetail = () => {
       <div className="bg-gray-50 min-h-full">
          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
 
-            {/* --- Top Header and Share Button --- */}
             <header className="flex justify-between items-start mb-6 border-b border-gray-200 pb-4">
                <h1 className="text-3xl font-bold text-gray-900">Patient Detail</h1>
                <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors shadow-sm text-sm font-medium">
@@ -351,7 +339,6 @@ const PatientDetail = () => {
                </button>
             </header>
 
-            {/* --- Patient Summary Block (Uses dynamic data) --- */}
             <div className="flex items-start space-x-6">
                <img
                   className="h-24 w-24 rounded-full object-cover shadow-md flex-shrink-0"
@@ -373,7 +360,6 @@ const PatientDetail = () => {
                </div>
             </div>
 
-            {/* --- Navigation Tabs (Functional) --- */}
             <nav className="mt-8 border-b border-gray-200">
                <div className="flex space-x-4 overflow-x-auto pb-1">
                   {tabs.map((tabName) => (
@@ -391,7 +377,6 @@ const PatientDetail = () => {
                </div>
             </nav>
 
-            {/* --- Dynamic Content Area --- */}
             <div className="pt-6">
                {renderContent()}
             </div>

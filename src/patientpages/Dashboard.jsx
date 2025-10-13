@@ -22,7 +22,7 @@ export default function PatientDashboard() {
     if (storedPatient) {
       const parsed = JSON.parse(storedPatient);
       setPatient(parsed);
-      setFormData(parsed); // preload form
+      setFormData(parsed);
     }
 
     const hour = new Date().getHours();
@@ -50,7 +50,6 @@ export default function PatientDashboard() {
     return age;
   };
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -58,7 +57,6 @@ export default function PatientDashboard() {
     }));
   };
 
-  // Save changes
   const handleSave = () => {
     localStorage.setItem("patientMoreInfo", JSON.stringify(formData));
     setPatient(formData);
@@ -67,13 +65,11 @@ export default function PatientDashboard() {
 
   return (
     <div className="p-4">
-      {/* Greeting */}
       <h1 className="text-xl font-bold mb-2">
         {greeting} {patient ? patient.fullName?.split(" ")[0] : "Guest"}!
       </h1>
       <p className="mb-4">Here’s what is happening with your health today.</p>
 
-      {/* Basic Info Card */}
       <div className="bg-white shadow-md rounded-lg p-6 border">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-lg font-semibold text-gray-600">
@@ -88,7 +84,6 @@ export default function PatientDashboard() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Age */}
           <div className="flex items-center space-x-3  p-3">
             <HiOutlineUserGroup className="text-white bg-[#1E318A] p-2 rounded-full w-10 h-10" />
             <div>
@@ -99,7 +94,6 @@ export default function PatientDashboard() {
             </div>
           </div>
 
-          {/* Blood Group */}
           <div className="flex items-center space-x-3  p-5">
             <FaTint className="text-white bg-[#1E318A] p-2 rounded-full w-10 h-10" />
             <div>
@@ -108,7 +102,6 @@ export default function PatientDashboard() {
             </div>
           </div>
 
-          {/* Genotype */}
           <div className="flex items-center space-x-3  p-3">
             <FaDna className="text-white bg-[#1E318A] p-2 rounded-full w-10 h-10" />
             <div>
@@ -117,7 +110,6 @@ export default function PatientDashboard() {
             </div>
           </div>
 
-          {/* Gender */}
           <div className="flex items-center space-x-3  p-3">
             <FaVenusMars className="text-white bg-[#1E318A] p-2 rounded-full w-10 h-10" />
             <div>
@@ -128,7 +120,6 @@ export default function PatientDashboard() {
         </div>
       </div>
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg p-6 w-96">
@@ -193,7 +184,6 @@ export default function PatientDashboard() {
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-        {/* Appointment */}
         <div className="bg-white ">
           <div className="p-4 ">
             <h2 className="text-lg font-semibold text-gray-600">Appointment</h2>
@@ -207,7 +197,6 @@ export default function PatientDashboard() {
           </div>
         </div>
 
-        {/* Prescription */}
         <div className="bg-white ">
           <div className="p-4 ">
             <h2 className="text-lg font-semibold text-gray-600">
@@ -223,7 +212,6 @@ export default function PatientDashboard() {
           </div>
         </div>
 
-        {/* Recent Lab Results */}
         <div className="bg-white ">
           <div className="p-4 ">
             <h2 className="text-lg font-semibold text-gray-600">
@@ -239,7 +227,6 @@ export default function PatientDashboard() {
           </div>
         </div>
 
-        {/* Health Articles */}
         <div className="bg-white">
           <div className="p-4">
             <h2 className="text-lg font-semibold text-gray-600">
@@ -247,7 +234,6 @@ export default function PatientDashboard() {
             </h2>
           </div>
           <div className="p-6 space-y-4 shadow-md rounded-lg border">
-            {/* Article 1 */}
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="font-semibold text-gray-800">Mental Health</h3>
@@ -265,7 +251,6 @@ export default function PatientDashboard() {
               </a>
             </div>
 
-            {/* Article 2 */}
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="font-semibold text-gray-800">Cancer</h3>
@@ -283,14 +268,11 @@ export default function PatientDashboard() {
               </a>
             </div>
 
-            {/* Article 3 */}
 
           </div>
         </div>
       </div>
-      {/* Recent Notifications */}
       <div className="bg-gray-100 shadow-md rounded-lg border mt-6">
-        {/* Header */}
         <div className="flex justify-between items-center p-4 ">
           <h2 className="text-lg font-semibold text-gray-600">
             Recent Notifications
@@ -300,7 +282,6 @@ export default function PatientDashboard() {
           </a>
         </div>
 
-        {/* Content */}
         <div className="flex flex-col items-center justify-center p-12 bg-white shadow-md rounded-lg border">
           <MdNotificationsOff className="text-gray-400 w-10 h-10 mb-2" />
           <p className="text-gray-500">No notifications yet.</p>

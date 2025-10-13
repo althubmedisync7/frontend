@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
    doctorData: null,
    doctorToken: "",
+
 };
 
 const doctorSlice = createSlice({

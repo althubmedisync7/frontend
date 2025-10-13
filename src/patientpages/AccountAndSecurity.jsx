@@ -26,12 +26,10 @@ export default function AccountSecurity() {
       return;
     }
     alert("Password changed successfully!");
-    // Handle API or Firebase password update here
   };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md  max-w-3xl mx-auto">
-      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold text-gray-800">
           Account & Security
@@ -42,7 +40,6 @@ export default function AccountSecurity() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Title Row */}
         <div className="flex justify-between items-center">
           <h3 className="text-lg font-medium text-gray-700">
             Change Password
@@ -56,7 +53,6 @@ export default function AccountSecurity() {
           </button>
         </div>
 
-        {/* Current Password */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Current Password <span className="text-red-500">*</span>
@@ -84,9 +80,7 @@ export default function AccountSecurity() {
           </p>
         </div>
 
-        {/* New Password + Confirm Password */}
         <div className="grid md:grid-cols-2 gap-4">
-          {/* New Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password <span className="text-red-500">*</span>
@@ -111,7 +105,6 @@ export default function AccountSecurity() {
             </div>
           </div>
 
-          {/* Confirm Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Confirm Password <span className="text-red-500">*</span>
@@ -137,7 +130,6 @@ export default function AccountSecurity() {
           </div>
         </div>
 
-        {/* Save Changes */}
         <div className="text-right">
           <button
             type="submit"
